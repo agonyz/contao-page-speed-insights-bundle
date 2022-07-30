@@ -1,0 +1,10 @@
+services:
+    _defaults:
+        autoconfigure: true
+
+    Agonyz\ContaoPageSpeedInsightsBundle\Controller\PageSpeedInsightsController:
+        public: true
+        arguments:
+            [ '@twig', '%agonyz_contao_page_speed_insights.cache_key%', '%agonyz_contao_page_speed_insights.api_key%', '@Agonyz\ContaoPageSpeedInsightsBundle\Service\RequestDatabaseHandler', '@Psr\Cache\CacheItemPoolInterface' ]
+        calls:
+            - [ setContainer, [ '@Psr\Container\ContainerInterface' ] ]

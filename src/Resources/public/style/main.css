@@ -1,0 +1,69 @@
+#page-speed-insights-table {
+    border-collapse: collapse;
+    font-size: 0.9em;
+    font-family: sans-serif;
+    min-width: 400px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+    width: 65%;
+}
+
+#page-speed-insights-table thead tr {
+    background-color: #009879;
+    text-align: left;
+}
+
+#page-speed-insights-table thead tr .header-text {
+    color: #fff;
+}
+
+#page-speed-insights-table th,
+#page-speed-insights-table td {
+    padding: 12px 15px;
+}
+
+#page-speed-insights-table tbody tr {
+    border-bottom: thin solid #dddddd;
+}
+
+#page-speed-insights-table tbody tr:nth-of-type(even) {
+    background-color: #f3f3f3;
+}
+
+#page-speed-insights-table tbody tr:last-of-type {
+    border-bottom: 2px solid #009879;
+}
+
+li.agonyz-page-speed-insights {
+    list-style-type: square;
+    margin: 5px 5px 5px 20px;
+}
+
+li.agonyz-page-speed-insights span {
+    color: #c33;
+}
+
+.agonyz-page-speed-insights.link {
+    color: #68b99b;
+}
+
+.agonyz-page-speed-insights.link:hover {
+    color: #227251;
+}
+
+pre code.agonyz-code {
+    color: #abb2bf;
+    background-color: #282c34;
+    border: 1px solid #999;
+    display: table;
+    padding: 20px;
+}
+
+.explanation {
+    line-height: 25px;
+}
+
+.agonyz-page-speed-insights-highlight {
+    background: #FFF7DD;
+    border: 1px solid #fbf0cb;
+    padding: 0 2px;
+}

@@ -1,0 +1,50 @@
+{% extends "@ContaoCore/Backend/be_page.html.twig" %}
+
+{% block headline %}
+Page Speed Insights
+{% endblock %}
+
+{% block error %}
+{% if pageSpeedInsights == 'error' %}
+There was an error with the api request!
+{% endif %}
+{% endblock %}
+
+{% block main %}
+<link href="{{ asset('bundles/agonyzcontaopagespeedinsights/style/main.css') }}" rel="stylesheet"/>
+<div class="tl_listing_container">
+    {% if pageSpeedInsights != 'error' %}
+    <h2>Information</h2><br>
+    {% endif %}
+    {% if pageSpeedInsights == 'error' %}
+    {% include '@AgonyzContaoPageSpeedInsights/modules/status_error.twig.html' %}
+    {% endif %}
+
+    {% if pageSpeedInsights == 'running' %}
+    {% include '@AgonyzContaoPageSpeedInsights/modules/status_running.twig.html' %}
+    {% elseif pageSpeedInsights == 'restart' %}
+    {% include '@AgonyzContaoPageSpeedInsights/modules/status_restart.twig.html' %}
+    {% elseif pageSpeedInsights is iterable %}
+    <table id="page-speed-insights-table">
+        <thead>
+        <tr>
+            <th class="header-text">Domain</th>
+            <th class="header-text">Selfcheck</th>
+            <th class="header-text">Mobile</th>
+            <th class="header-text">Desktop</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for pageSpeedInsight in pageSpeedInsights %}
+        <tr>
+            <td><a class="agonyz-page-speed-insights link" target="_blank" href="{{pageSpeedInsight.defaultUrl}}">{{ pageSpeedInsight.defaultUrl }}</a></td>
+            <td><a class="agonyz-page-speed-insights link" target="_blank" href="{{pageSpeedInsight.selfCheckUrl}}">Check</a></td>
+            <td>{{max(pageSpeedInsight.results.mobile)}}</td>
+            <td>{{max(pageSpeedInsight.results.desktop)}}</td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    {% endif %}
+</div>
+{% endblock %}

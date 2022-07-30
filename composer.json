@@ -1,0 +1,42 @@
+{
+    "name": "agonyz/contao-page-speed-insights-bundle",
+    "type": "contao-bundle",
+    "description": "Contao extension to automatically get page speed insights for your root pages",
+    "homepage": "https://github.com/agonyz/contao-page-speed-insights-bundle",
+    "license": "LGPL-3.0-or-later",
+    "authors": [
+        {
+            "name": "agonyz",
+            "homepage": "https://agonyz.de",
+            "email": "dev@agonyz.de",
+            "role": "Developer"
+        }
+    ],
+    "support": {
+        "issues": "https://github.com/agonyz/contao-page-speed-insights-bundle/issues",
+        "source": "https://github.com/agonyz/contao-page-speed-insights-bundle"
+    },
+    "require": {
+        "php": "^7.4 || ^8.0",
+        "contao/core-bundle": "^4.13",
+        "guzzlehttp/guzzle": "^7.4"
+    },
+    "require-dev": {
+        "contao/easy-coding-standard": "^5.3"
+    },
+    "extra": {
+        "contao-manager-plugin": "Agonyz\\ContaoPageSpeedInsightsBundle\\ContaoManager\\Plugin"
+    },
+    "autoload": {
+        "psr-4": {
+            "Agonyz\\ContaoPageSpeedInsightsBundle\\": "src/"
+        }
+    },
+    "config": {
+        "allow-plugins": {
+            "contao-components/installer": true,
+            "dealerdirect/phpcodesniffer-composer-installer": true,
+            "contao/manager-plugin": true
+        }
+    }
+}

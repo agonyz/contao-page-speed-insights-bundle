@@ -1,0 +1,53 @@
+<?php
+
+declare(strict_types=1);
+
+/*
+ * This file is part of agonyz/contao-page-speed-insights-bundle.
+ *
+ * (c) 2022 agonyz
+ *
+ * @license LGPL-3.0-or-later
+ */
+
+namespace Agonyz\ContaoPageSpeedInsightsBundle\Command;
+
+use Agonyz\ContaoPageSpeedInsightsBundle\Service\RequestCacheHandler;
+use Contao\CoreBundle\Framework\ContaoFramework;
+use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Style\SymfonyStyle;
+
+class MakeRequestCommand extends Command
+{
+    protected static $defaultName = 'agonyz-page-speed-insights:request';
+    protected static $defaultDescription = 'Makes requests to google page speeed insights api';
+
+    private ContaoFramework $contaoFramework;
+    private RequestCacheHandler $requestCacheHandler;
+
+    public function __construct(ContaoFramework $contaoFramework, RequestCacheHandler $requestCacheHandler)
+    {
+        $this->contaoFramework = $contaoFramework;
+        $this->requestCacheHandler = $requestCacheHandler;
+        parent::__construct();
+    }
+
+    protected function execute(InputInterface $input, OutputInterface $output): int
+    {
+        $this->contaoFramework->initialize();
+        $io = new SymfonyStyle($input, $output);
+
+        $this->requestCacheHandler->deleteCacheKey();
+
+        if (!$this->requestCacheHandler->createCacheKey()) {
+            $io->error('Could not make request to google page speed insights api. Please check your domain dns configuration.');
+
+            return Command::FAILURE;
+        }
+        $io->success('Successfully made request to google page speed insights api.');
+
+        return Command::SUCCESS;
+    }
+}

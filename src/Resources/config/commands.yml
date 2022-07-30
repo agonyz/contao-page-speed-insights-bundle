@@ -1,0 +1,15 @@
+services:
+    _defaults:
+      autoconfigure: true
+
+    Agonyz\ContaoPageSpeedInsightsBundle\Command\DeleteCachedResultsCommand:
+        arguments:
+            [ '@contao.framework', '@Agonyz\ContaoPageSpeedInsightsBundle\Service\RequestCacheHandler']
+        tags:
+            - { name: console.command }
+
+    Agonyz\ContaoPageSpeedInsightsBundle\Command\MakeRequestCommand:
+        arguments:
+            [ '@contao.framework', '@Agonyz\ContaoPageSpeedInsightsBundle\Service\RequestCacheHandler']
+        tags:
+            - { name: console.command }

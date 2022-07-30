@@ -1,0 +1,7 @@
+services:
+    _defaults:
+        autoconfigure: true
+
+    Agonyz\ContaoPageSpeedInsightsBundle\EventListener\BackendMenuListener:
+        arguments:
+            [ '@router', '@request_stack' ]
