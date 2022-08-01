@@ -62,7 +62,13 @@ class RequestCacheHandler
 
             return false;
         }
-        $result->set($domainResults);
+
+        $data = [
+            'domainResults' => $domainResults,
+            'timestamp' => (new \DateTime('now'))->getTimestamp()
+        ];
+
+        $result->set($data);
         $cache->save($result);
         $this->requestDatabaseHandler->setRequestRunning(false);
 

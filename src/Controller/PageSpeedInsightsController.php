@@ -57,6 +57,16 @@ class PageSpeedInsightsController extends AbstractController
             }
         } else {
             $pageSpeedInsights = $result->get();
+
+            return new Response(
+                $this->twig->render(
+                    '@AgonyzContaoPageSpeedInsights/page_speed_insights.twig.html',
+                    [
+                        'pageSpeedInsights' => $pageSpeedInsights['domainResults'],
+                        'timestamp' => $pageSpeedInsights['timestamp']
+                    ]
+                )
+            );
         }
 
         return new Response(

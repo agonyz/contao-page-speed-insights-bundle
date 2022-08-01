@@ -14,7 +14,7 @@ There was an error with the api request!
 <link href="{{ asset('bundles/agonyzcontaopagespeedinsights/style/main.css') }}" rel="stylesheet"/>
 <div class="tl_listing_container">
     {% if pageSpeedInsights != 'error' %}
-    <h2>Information</h2><br>
+    <h2>Information {% if timestamp is defined %}- {{ timestamp|date('d.m.Y | H:i') }} {% endif %}</h2><br>
     {% endif %}
     {% if pageSpeedInsights == 'error' %}
     {% include '@AgonyzContaoPageSpeedInsights/modules/status_error.twig.html' %}
