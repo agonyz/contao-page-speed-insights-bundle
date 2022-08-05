@@ -5,10 +5,12 @@ services:
     Agonyz\ContaoPageSpeedInsightsBundle\Service\GetDomainUrls: ~
     Agonyz\ContaoPageSpeedInsightsBundle\Service\GetDomainResults:
         arguments:
-            [ '@Agonyz\ContaoPageSpeedInsightsBundle\Service\GetDomainUrls', '%agonyz_contao_page_speed_insights.api_key%', '%agonyz_contao_page_speed_insights.request_retries%', '%agonyz_contao_page_speed_insights.pool_request_concurrency%' ]
+          [ '@Agonyz\ContaoPageSpeedInsightsBundle\Service\GetDomainUrls', '%agonyz_contao_page_speed_insights.api_key%', '%agonyz_contao_page_speed_insights.request_retries%', '%agonyz_contao_page_speed_insights.pool_request_concurrency%' ]
 
     Agonyz\ContaoPageSpeedInsightsBundle\Service\RequestCacheHandler:
         arguments:
-            [ '@Agonyz\ContaoPageSpeedInsightsBundle\Service\GetDomainResults', '%agonyz_contao_page_speed_insights.cache_ttl%', '%agonyz_contao_page_speed_insights.cache_key%', '@Agonyz\ContaoPageSpeedInsightsBundle\Service\RequestDatabaseHandler', '@Psr\Cache\CacheItemPoolInterface']
+          [ '@Agonyz\ContaoPageSpeedInsightsBundle\Service\GetDomainResults', '%agonyz_contao_page_speed_insights.cache_ttl%', '%agonyz_contao_page_speed_insights.cache_key%', '@Psr\Cache\CacheItemPoolInterface', '@Agonyz\ContaoPageSpeedInsightsBundle\Service\RequestDatabaseHandler']
 
-    Agonyz\ContaoPageSpeedInsightsBundle\Service\RequestDatabaseHandler: ~
+    Agonyz\ContaoPageSpeedInsightsBundle\Service\RequestDatabaseHandler:
+        arguments:
+          [ '@doctrine.orm.entity_manager' ]

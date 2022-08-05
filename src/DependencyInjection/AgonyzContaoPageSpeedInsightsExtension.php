@@ -29,7 +29,7 @@ class AgonyzContaoPageSpeedInsightsExtension extends Extension
         $loader->load('commands.yml');
         $loader->load('listeners.yml');
         $loader->load('controllers.yml');
-        $loader->load('models.yml');
+        $loader->load('repositories.yml');
 
         // Configuration
         $container->setParameter('agonyz_contao_page_speed_insights.api_key', $config['api_key']);

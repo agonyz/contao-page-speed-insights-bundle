@@ -1,0 +1,8 @@
+services:
+  _defaults:
+    autoconfigure: true
+    public: true
+
+  Agonyz\ContaoPageSpeedInsightsBundle\Repository\AgonyzRequestRepository:
+    tags: ['doctrine.repository_service']
+    arguments: ['@doctrine']

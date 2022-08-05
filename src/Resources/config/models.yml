@@ -1,5 +1,0 @@
-services:
-    _defaults:
-      autoconfigure: true
-
-    Agonyz\ContaoPageSpeedInsightsBundle\Model\RequestDatabaseModel: ~
