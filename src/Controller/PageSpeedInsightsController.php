@@ -24,16 +24,16 @@ class PageSpeedInsightsController extends AbstractController
     private TwigEnvironment $twig;
     private string $cacheKey;
     private string $apiKey;
-    private RequestDatabaseHandler $requestDatabaseHandler;
     private CacheItemPoolInterface $cacheApp;
+    private RequestDatabaseHandler $requestDatabaseHandler;
 
-    public function __construct(TwigEnvironment $twig, string $cacheKey, string $apiKey, RequestDatabaseHandler $requestDatabaseHandler, CacheItemPoolInterface $cacheApp)
+    public function __construct(TwigEnvironment $twig, string $cacheKey, string $apiKey, CacheItemPoolInterface $cacheApp, RequestDatabaseHandler $requestDatabaseHandler)
     {
         $this->twig = $twig;
         $this->cacheKey = $cacheKey;
         $this->apiKey = $apiKey;
-        $this->requestDatabaseHandler = $requestDatabaseHandler;
         $this->cacheApp = $cacheApp;
+        $this->requestDatabaseHandler = $requestDatabaseHandler;
     }
 
     /**

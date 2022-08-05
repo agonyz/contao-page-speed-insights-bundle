@@ -12,6 +12,9 @@ declare(strict_types=1);
 
 namespace Agonyz\ContaoPageSpeedInsightsBundle\Service;
 
+use Agonyz\ContaoPageSpeedInsightsBundle\Entity\AgonyzRequest;
+use Agonyz\ContaoPageSpeedInsightsBundle\Repository\AgonyzRequestRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Psr\Cache\CacheItemPoolInterface;
 
 class RequestCacheHandler
@@ -19,16 +22,16 @@ class RequestCacheHandler
     private GetDomainResults $getDomainResults;
     private int $cacheTtl;
     private string $cacheKey;
-    private RequestDatabaseHandler $requestDatabaseHandler;
     private CacheItemPoolInterface $cacheApp;
+    private RequestDatabaseHandler $requestDatabaseHandler;
 
-    public function __construct(GetDomainResults $getDomainResults, int $cacheTtl, string $cacheKey, RequestDatabaseHandler $requestDatabaseHandler, CacheItemPoolInterface $cacheApp)
+    public function __construct(GetDomainResults $getDomainResults, int $cacheTtl, string $cacheKey, CacheItemPoolInterface $cacheApp, RequestDatabaseHandler $requestDatabaseHandler)
     {
         $this->getDomainResults = $getDomainResults;
         $this->cacheTtl = $cacheTtl;
         $this->cacheKey = $cacheKey;
-        $this->requestDatabaseHandler = $requestDatabaseHandler;
         $this->cacheApp = $cacheApp;
+        $this->requestDatabaseHandler = $requestDatabaseHandler;
     }
 
     public function deleteCacheKey(): void

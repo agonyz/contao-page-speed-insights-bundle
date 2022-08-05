@@ -12,27 +12,36 @@ declare(strict_types=1);
 
 namespace Agonyz\ContaoPageSpeedInsightsBundle\Service;
 
-use Agonyz\ContaoPageSpeedInsightsBundle\Model\RequestDatabaseModel;
+use Agonyz\ContaoPageSpeedInsightsBundle\Entity\AgonyzRequest;
+use Doctrine\ORM\EntityManagerInterface;
 
 class RequestDatabaseHandler
 {
+    private EntityManagerInterface $entityManager;
+
+    public function __construct(EntityManagerInterface $entityManager)
+    {
+        $this->entityManager = $entityManager;
+    }
+
     public function createRequestCheck(): void
     {
-        $requestChecker = RequestDatabaseModel::findAll();
+        $requestChecker = $this->entityManager->getRepository(AgonyzRequest::class)->findAll();
 
         if (!$requestChecker) {
-            $requestCheck = new RequestDatabaseModel();
-            $requestCheck->isRequestRunning = false;
-            $requestCheck->save();
+            $requestCheck = new AgonyzRequest();
+            $requestCheck->setRequestRunning(false);
+            $this->entityManager->persist($requestCheck);
+            $this->entityManager->flush();
         }
     }
 
     public function isRequestRunning(): bool
     {
-        if(!($request = $this->getRequestDatabaseModel())) {
+        if(!($request = $this->getAgonyzRequest())) {
             return false;
         }
-        if (!$request->isRequestRunning) {
+        if (!$request->isRequestRunning()) {
             return false;
         }
         return true;
@@ -40,27 +49,26 @@ class RequestDatabaseHandler
 
     public function setRequestRunning(bool $status): bool
     {
-        if(!($request = $this->getRequestDatabaseModel())) {
+        if(!($request = $this->getAgonyzRequest())) {
             return false;
         }
-        $request->isRequestRunning = $status;
-        $request->save();
+        $request->setRequestRunning($status);
+        $this->entityManager->persist($request);
+        $this->entityManager->flush();
         return true;
     }
 
-    private function getRequestDatabaseModel(): ?RequestDatabaseModel
+    private function getAgonyzRequest(): ?AgonyzRequest
     {
-        $model = '';
-        if(!($collection = RequestDatabaseModel::findAll())) {
-            return null;
-        }
-        if($collection->count() > 1) {
+        $request = $this->entityManager->getRepository(AgonyzRequest::class)->findAll();
+
+        if(!$request) {
             return null;
         }
 
-        foreach($collection as $item) {
-            $model = $item->current();
+        if(count($request) > 1) {
+            return null;
         }
-        return $model;
+        return $request[0];
     }
 }
