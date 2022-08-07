@@ -18,7 +18,7 @@ You can edit the configuration in your ```config/config.yml```
 agonyz_contao_page_speed_insights:
   api_key: your-secret-api-key
   cache_ttl: 84600 # default 0 -> will be saved till it is deleted
-  request_retries: 6
+  request_retries: 3
   cache_key: agonyz_page_speed_insights_cache
   pool_request_concurrency: 10 
 ```
@@ -51,7 +51,7 @@ services:
     tags:
       -
         name: contao.cronjob
-        interval: '0 */2 * * *'
+        interval: '0 */24 * * *'
     arguments:
       [ '@contao.framework', '@Agonyz\ContaoPageSpeedInsightsBundle\Service\RequestCacheHandler']
 ```

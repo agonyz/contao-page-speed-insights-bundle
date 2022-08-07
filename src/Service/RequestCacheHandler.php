@@ -58,8 +58,6 @@ class RequestCacheHandler
             $result->expiresAfter($this->cacheTtl);
         }
 
-        dump($this->getDomainResults->getDomainResults());
-
         if (!($domainResults = $this->getDomainResults->getDomainResults())) {
             $result->set('error');
             $cache->save($result);
