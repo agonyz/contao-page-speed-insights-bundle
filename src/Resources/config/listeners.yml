@@ -5,3 +5,9 @@ services:
     Agonyz\ContaoPageSpeedInsightsBundle\EventListener\BackendMenuListener:
         arguments:
             [ '@router', '@request_stack' ]
+
+    Agonyz\ContaoPageSpeedInsightsBundle\EventListener\TerminateRequestListener:
+        arguments:
+            [ '@router', '@Agonyz\ContaoPageSpeedInsightsBundle\Service\RequestCacheHandler' ]
+        tags:
+            - { name: kernel.event_listener, event: kernel.terminate }

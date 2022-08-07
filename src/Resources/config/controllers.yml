@@ -5,6 +5,6 @@ services:
     Agonyz\ContaoPageSpeedInsightsBundle\Controller\PageSpeedInsightsController:
         public: true
         arguments:
-          [ '@twig', '%agonyz_contao_page_speed_insights.cache_key%', '%agonyz_contao_page_speed_insights.api_key%', '@Psr\Cache\CacheItemPoolInterface', '@Agonyz\ContaoPageSpeedInsightsBundle\Service\RequestDatabaseHandler' ]
+          [ '@twig', '%agonyz_contao_page_speed_insights.cache_key%', '%agonyz_contao_page_speed_insights.api_key%', '@Psr\Cache\CacheItemPoolInterface', '@Agonyz\ContaoPageSpeedInsightsBundle\Service\RequestDatabaseHandler', '@Agonyz\ContaoPageSpeedInsightsBundle\Service\RequestCacheHandler' ]
         calls:
             - [ setContainer, [ '@Psr\Container\ContainerInterface' ] ]
