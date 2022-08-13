@@ -4,6 +4,15 @@
     "description": "Contao extension to automatically get page speed insights for your root pages",
     "homepage": "https://github.com/agonyz/contao-page-speed-insights-bundle",
     "license": "LGPL-3.0-or-later",
+    "keywords": [
+        "contao",
+        "google",
+        "pagespeed",
+        "insights",
+        "api",
+        "automatic",
+        "analyse"
+    ],
     "authors": [
         {
             "name": "agonyz",
