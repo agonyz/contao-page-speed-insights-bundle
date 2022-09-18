@@ -22,7 +22,7 @@ There was an error with the api request!
     {% include '@AgonyzContaoPageSpeedInsights/modules/status_error.twig.html' %}
     {% elseif pageSpeedInsights is iterable %}
     <div id="agonyz-page-speed-information">
-    <table id="page-speed-insights-table">
+    <table class="page-speed-insights-table">
         <thead>
         <tr>
             <th class="header-text">Domain</th>
@@ -52,7 +52,9 @@ There was an error with the api request!
     {% endif %}
     <div id="agonyz-progress-container" class="{% if pageSpeedInsights == 'error' %}hidden{% endif %}">
         <div id="progress-information">
-            New request results are generated right now.
+            <p>New request results are generated right now.</p>
+            <p>If the progress indicator hangs, please look at the <a target="_blank" href="{{ path('agonyz_contao_page_speed_insights_request_list') }}">Request List</a> and the associated status.</p>
+            <p>It may be necessary to delete the affected request and start the process again.</p>
         </div>
         <div id="progressBar"></div>
     </div>

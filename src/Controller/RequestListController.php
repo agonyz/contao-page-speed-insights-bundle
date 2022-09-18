@@ -39,13 +39,13 @@ class RequestListController extends AbstractController
      */
     public function requestResults(): Response
     {
-        $requests = $this->entityManager->getRepository(AgonyzRequest::class)->findBy(['successful' => 1]);
+        $requests = $this->entityManager->getRepository(AgonyzRequest::class)->findAll();
 
         return new Response(
             $this->twig->render(
                 '@AgonyzContaoPageSpeedInsights/request_list.twig.html',
                 [
-                    'requests' => $requests,
+                    'requests' => $requests
                 ]
             )
         );
