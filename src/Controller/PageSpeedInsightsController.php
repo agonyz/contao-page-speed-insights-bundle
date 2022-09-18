@@ -35,7 +35,7 @@ class PageSpeedInsightsController extends AbstractController
 
     /**
      * @Route("/contao/agonyz/page-speed-insights",
-     *     name=PageSpeedInsightsController::class,
+     *     name="agonyz_contao_page_speed_insights_main",
      *     defaults={"_scope": "backend"}
      * )
      */
@@ -70,6 +70,29 @@ class PageSpeedInsightsController extends AbstractController
                 ]
             )
         );
+    }
+
+    /**
+     * @Route("/contao/agonyz/page-speed-insights/request/{id}",
+     *     name="agonyz_contao_page_speed_insights_by_id",
+     *     defaults={"_scope": "backend"}
+     * )
+     */
+    public function requestById(int $id): Response
+    {
+        $request = $this->entityManager->getRepository(AgonyzRequest::class)->findOneBy(['id' => $id]);
+        {
+            return new Response(
+                $this->twig->render(
+                    '@AgonyzContaoPageSpeedInsights/page_speed_insights.twig.html',
+                    [
+                        'pageSpeedInsights' => $request->getRequestResults(),
+                        'timestamp' => $request->getCreated(),
+                        'isRequestById' => true
+                    ]
+                )
+            );
+        }
     }
 
     /**

@@ -1,0 +1,36 @@
+{% extends "@ContaoCore/Backend/be_page.html.twig" %}
+
+{% block headline %}
+Page Speed Insights - Request List
+{% endblock %}
+
+{% block error %}
+{% if requests is empty %}
+No successful request where found in the database!
+{% endif %}
+{% endblock %}
+
+{% block main %}
+<link href="{{ asset('bundles/agonyzcontaopagespeedinsights/style/main.css') }}" rel="stylesheet" type="text/css"/>
+<script src="{{ asset('bundles/agonyzcontaopagespeedinsights/script/list-handler.js') }}" type="text/javascript"></script>
+{% if requests is not empty %}
+<table id="page-speed-insights-table">
+    <thead>
+    <tr>
+        <th class="header-text">ID</th>
+        <th class="header-text">Created</th>
+        <th class="header-text">Delete</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for request in requests %}
+    <tr>
+        <td><a class="agonyz-page-speed-insights link" target="_blank" href="{{ path('agonyz_contao_page_speed_insights_by_id', {id: request.id}) }}">{{ request.id }}</a></td>
+        <td>{{ request.created|date('d.m.Y - H:i') }}</td>
+        <td><a data-id="{{request.id}}" class="agonyz-page-speed-insights link delete" href="{{ path('agonyz_contao_page_speed_insights_by_id_delete', {id: request.id}) }}">Delete</a></td>
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% endif %}
+{% endblock %}

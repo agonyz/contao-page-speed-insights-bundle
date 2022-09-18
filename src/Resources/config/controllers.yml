@@ -8,3 +8,10 @@ services:
           [ '@twig', '%agonyz_contao_page_speed_insights.api_key%', '@doctrine.orm.entity_manager' ]
         calls:
             - [ setContainer, [ '@Psr\Container\ContainerInterface' ] ]
+
+    Agonyz\ContaoPageSpeedInsightsBundle\Controller\RequestListController:
+        public: true
+        arguments:
+          [ '@twig', '@doctrine.orm.entity_manager' ]
+        calls:
+            - [ setContainer, [ '@Psr\Container\ContainerInterface' ] ]

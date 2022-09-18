@@ -45,11 +45,11 @@ class BackendMenuListener
 
         $node = $factory
             ->createItem('agonyz-page-speed-insights')
-            ->setUri($this->router->generate(PageSpeedInsightsController::class))
+            ->setUri($this->router->generate('agonyz_contao_page_speed_insights_main'))
             ->setLabel('Pagespeed-Insights')
             ->setLinkAttribute('title', 'Pagespeed Insights für die Root-Seiten ansehen')
             ->setLinkAttribute('class', 'agonyz-page-speed-insights')
-            ->setCurrent(PageSpeedInsightsController::class === $this->requestStack->getCurrentRequest()->get('_controller'))
+            ->setCurrent('agonyz_contao_page_speed_insights_main' === $this->requestStack->getCurrentRequest()->get('_controller'))
         ;
 
         $contentNode->addChild($node);

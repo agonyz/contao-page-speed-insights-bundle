@@ -43,10 +43,11 @@ There was an error with the api request!
         </tbody>
     </table>
     {% endif %}
-    {% if pageSpeedInsights != 'running' %}
+    {% if (pageSpeedInsights != 'running') and (isRequestById is not defined) %}
     <br>
     <br>
     <button id="agonyz-make-new-request" class="agonyz-button"><span>Make Request</span></button>
+    <a href="{{ path('agonyz_contao_page_speed_insights_request_list') }}"><button id="agonyz-show-request-results-list" class="agonyz-button"><span>Request List</span></button></a>
     </div>
     {% endif %}
     <div id="agonyz-progress-container" class="{% if pageSpeedInsights == 'error' %}hidden{% endif %}">
