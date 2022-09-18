@@ -8,6 +8,6 @@ services:
 
     Agonyz\ContaoPageSpeedInsightsBundle\EventListener\TerminateRequestListener:
         arguments:
-            [ '@router', '@Agonyz\ContaoPageSpeedInsightsBundle\Service\RequestCacheHandler' ]
+            [ '@router', '@Agonyz\ContaoPageSpeedInsightsBundle\Service\Request\RequestHandler' ]
         tags:
             - { name: kernel.event_listener, event: kernel.terminate }

@@ -12,7 +12,7 @@ declare(strict_types=1);
 
 namespace Agonyz\ContaoPageSpeedInsightsBundle\Command;
 
-use Agonyz\ContaoPageSpeedInsightsBundle\Service\RequestCacheHandler;
+use Agonyz\ContaoPageSpeedInsightsBundle\Service\Request\RequestHandler;
 use Contao\CoreBundle\Framework\ContaoFramework;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -25,12 +25,12 @@ class MakeRequestCommand extends Command
     protected static $defaultDescription = 'Makes requests to google page speeed insights api';
 
     private ContaoFramework $contaoFramework;
-    private RequestCacheHandler $requestCacheHandler;
+    private RequestHandler $requestHandler;
 
-    public function __construct(ContaoFramework $contaoFramework, RequestCacheHandler $requestCacheHandler)
+    public function __construct(ContaoFramework $contaoFramework, RequestHandler $requestHandler)
     {
         $this->contaoFramework = $contaoFramework;
-        $this->requestCacheHandler = $requestCacheHandler;
+        $this->requestHandler = $requestHandler;
         parent::__construct();
     }
 
@@ -39,9 +39,7 @@ class MakeRequestCommand extends Command
         $this->contaoFramework->initialize();
         $io = new SymfonyStyle($input, $output);
 
-        $this->requestCacheHandler->deleteCacheKey();
-
-        if (!$this->requestCacheHandler->createCacheKey()) {
+        if (!$this->requestHandler->request()) {
             $io->error('Could not make request to google page speed insights api. Please check your domain dns configuration.');
 
             return Command::FAILURE;

@@ -12,24 +12,25 @@ declare(strict_types=1);
 
 namespace Agonyz\ContaoPageSpeedInsightsBundle\Cron;
 
-use Agonyz\ContaoPageSpeedInsightsBundle\Service\RequestCacheHandler;
+use Agonyz\ContaoPageSpeedInsightsBundle\Service\Request\RequestHandler;
 use Contao\CoreBundle\Framework\ContaoFramework;
 
 class PageSpeedInsightsCron
 {
     private ContaoFramework $contaoFramework;
-    private RequestCacheHandler $requestCacheHandler;
+    private RequestHandler $requestHandler;
 
-    public function __construct(ContaoFramework $contaoFramework, RequestCacheHandler $requestCacheHandler)
+    public function __construct(ContaoFramework $contaoFramework, RequestHandler $requestHandler)
     {
         $this->contaoFramework = $contaoFramework;
-        $this->requestCacheHandler = $requestCacheHandler;
+        $this->requestHandler = $requestHandler;
     }
 
     public function __invoke(): void
     {
         $this->contaoFramework->initialize();
-        $this->requestCacheHandler->deleteCacheKey();
-        $this->requestCacheHandler->createCacheKey();
+        $this->requestHandler->request();
+        #$this->requestCacheHandler->deleteCacheKey();
+        #$this->requestCacheHandler->createCacheKey();
     }
 }

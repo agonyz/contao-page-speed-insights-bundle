@@ -12,6 +12,7 @@ There was an error with the api request!
 
 {% block main %}
 <link href="{{ asset('bundles/agonyzcontaopagespeedinsights/style/main.css') }}" rel="stylesheet" type="text/css"/>
+<script src="{{ asset('bundles/agonyzcontaopagespeedinsights/script/progressbar.js') }}" type="text/javascript"></script>
 <script src="{{ asset('bundles/agonyzcontaopagespeedinsights/script/fetch-handler.js') }}" type="text/javascript"></script>
 <div class="tl_listing_container">
     {% if pageSpeedInsights != 'error' %}
@@ -19,13 +20,8 @@ There was an error with the api request!
     {% endif %}
     {% if pageSpeedInsights == 'error' %}
     {% include '@AgonyzContaoPageSpeedInsights/modules/status_error.twig.html' %}
-    {% endif %}
-
-    {% if pageSpeedInsights == 'running' %}
-    {% include '@AgonyzContaoPageSpeedInsights/modules/status_running.twig.html' %}
-    {% elseif pageSpeedInsights == 'restart' %}
-    {% include '@AgonyzContaoPageSpeedInsights/modules/status_restart.twig.html' %}
     {% elseif pageSpeedInsights is iterable %}
+    <div id="agonyz-page-speed-information">
     <table id="page-speed-insights-table">
         <thead>
         <tr>
@@ -49,12 +45,19 @@ There was an error with the api request!
     {% endif %}
     <br>
     <br>
-    <button id="agonyz-remove-cached-results" class="agonyz-button"><span>Remove Results</span></button>
     <button id="agonyz-make-new-request" class="agonyz-button"><span>Make Request</span></button>
+    </div>
+    <div id="agonyz-progress-container" class="{% if pageSpeedInsights == 'error' %}hidden{% endif %}">
+        <div id="progress-information">
+            New request results are generated right now.
+        </div>
+        <div id="progressBar"></div>
+    </div>
+
 </div>
 
 <script>
-    const REMOVE_CACHED_RESULTS_URL = "{{ path('agonyz_contao_page_speed_insights_delete_cached_results') }}";
     const MAKE_REQUEST_URL = "{{ path('agonyz_contao_page_speed_insights_make_request') }}";
+    const REQUEST_PROGRESS_URL = "{{ path('agonyz_contao_page_speed_insights_request_progress') }}";
 </script>
 {% endblock %}

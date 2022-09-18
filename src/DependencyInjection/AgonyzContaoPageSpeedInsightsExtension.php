@@ -33,9 +33,7 @@ class AgonyzContaoPageSpeedInsightsExtension extends Extension
 
         // Configuration
         $container->setParameter('agonyz_contao_page_speed_insights.api_key', $config['api_key']);
-        $container->setParameter('agonyz_contao_page_speed_insights.cache_ttl', $config['cache_ttl']);
         $container->setParameter('agonyz_contao_page_speed_insights.request_retries', $config['request_retries']);
-        $container->setParameter('agonyz_contao_page_speed_insights.cache_key', $config['cache_key']);
         $container->setParameter('agonyz_contao_page_speed_insights.pool_request_concurrency', $config['pool_request_concurrency']);
     }
 }

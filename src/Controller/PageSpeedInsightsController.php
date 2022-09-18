@@ -12,32 +12,25 @@ declare(strict_types=1);
 
 namespace Agonyz\ContaoPageSpeedInsightsBundle\Controller;
 
-use Agonyz\ContaoPageSpeedInsightsBundle\Service\RequestDatabaseHandler;
-use Psr\Cache\CacheItemPoolInterface;
+use Agonyz\ContaoPageSpeedInsightsBundle\Entity\AgonyzRequest;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Twig\Environment as TwigEnvironment;
-use Agonyz\ContaoPageSpeedInsightsBundle\Service\RequestCacheHandler;
 
 class PageSpeedInsightsController extends AbstractController
 {
     private TwigEnvironment $twig;
-    private string $cacheKey;
     private string $apiKey;
-    private CacheItemPoolInterface $cacheApp;
-    private RequestDatabaseHandler $requestDatabaseHandler;
-    private RequestCacheHandler $requestCacheHandler;
+    private EntityManagerInterface $entityManager;
 
-    public function __construct(TwigEnvironment $twig, string $cacheKey, string $apiKey, CacheItemPoolInterface $cacheApp, RequestDatabaseHandler $requestDatabaseHandler, RequestCacheHandler $requestCacheHandler)
+    public function __construct(TwigEnvironment $twig, string $apiKey, EntityManagerInterface $entityManager)
     {
         $this->twig = $twig;
-        $this->cacheKey = $cacheKey;
         $this->apiKey = $apiKey;
-        $this->cacheApp = $cacheApp;
-        $this->requestDatabaseHandler = $requestDatabaseHandler;
-        $this->requestCacheHandler = $requestCacheHandler;
+        $this->entityManager = $entityManager;
     }
 
     /**
@@ -48,35 +41,24 @@ class PageSpeedInsightsController extends AbstractController
      */
     public function index(): Response
     {
-        $cache = $this->cacheApp;
-        $result = $cache->getItem($this->cacheKey);
-
-        if (!$this->apiKey) {
+        $latestRequest = $this->entityManager->getRepository(AgonyzRequest::class)->getLatestRequest();
+        if (!$this->apiKey || !$latestRequest) {
             $pageSpeedInsights = 'error';
         }
-        elseif($result->get() === 'error') {
+        elseif (!$latestRequest->getRequestResults() && !$latestRequest->isRequestRunning() && !$latestRequest->isSuccessful()) {
             $pageSpeedInsights = 'error';
         }
-        elseif (!$result->isHit()) {
-            if (!$this->requestDatabaseHandler->isRequestRunning()) {
-                $pageSpeedInsights = 'restart';
-            } else {
-                $pageSpeedInsights = 'running';
-            }
-        } else {
-            $pageSpeedInsights = $result->get();
-
+        else {
             return new Response(
                 $this->twig->render(
                     '@AgonyzContaoPageSpeedInsights/page_speed_insights.twig.html',
                     [
-                        'pageSpeedInsights' => $pageSpeedInsights['domainResults'],
-                        'timestamp' => $pageSpeedInsights['timestamp']
+                        'pageSpeedInsights' => $latestRequest->getRequestResults(),
+                        'timestamp' => $latestRequest->getCreated()
                     ]
                 )
             );
         }
-
         return new Response(
             $this->twig->render(
                 '@AgonyzContaoPageSpeedInsights/page_speed_insights.twig.html',
@@ -88,18 +70,6 @@ class PageSpeedInsightsController extends AbstractController
     }
 
     /**
-     * @Route("/contao/agonyz/page-speed-insights/delete-cached-results",
-     *     name="agonyz_contao_page_speed_insights_delete_cached_results",
-     *     defaults={"_scope": "backend"}
-     * )
-     */
-    public function deleteCachedResults()
-    {
-        $this->requestCacheHandler->deleteCacheKey();
-        return new JsonResponse('done', Response::HTTP_OK);
-    }
-
-    /**
      * @Route("/contao/agonyz/page-speed-insights/make-request",
      *     name="agonyz_contao_page_speed_insights_make_request",
      *     defaults={"_scope": "backend"}
@@ -108,5 +78,31 @@ class PageSpeedInsightsController extends AbstractController
     public function makeRequest()
     {
         return new JsonResponse('task started', Response::HTTP_OK);
+    }
+
+    /**
+     * @Route("/contao/agonyz/page-speed-insights/request-progress",
+     *     name="agonyz_contao_page_speed_insights_request_progress",
+     *     defaults={"_scope": "backend"}
+     * )
+     */
+    public function requestProgress()
+    {
+        $latestRequest = $this->entityManager->getRepository(AgonyzRequest::class)->getLatestRequest();
+
+        if(!$latestRequest) {
+            $data['requestDone'] = true;
+            return new JsonResponse($data, Response::HTTP_OK);
+        }
+
+        $data['requestFinalCount'] = $latestRequest->getRequestFinalCount();
+        $data['requestCounter'] = $latestRequest->getRequestCounter();
+        $data['requestRunning'] = $latestRequest->isRequestRunning();
+        $data['requestDone'] = false;
+
+        if($data['requestFinalCount'] === $data['requestCounter'] && $data['requestRunning'] === false)  {
+            $data['requestDone'] = true;
+        }
+        return new JsonResponse($data, Response::HTTP_OK);
     }
 }
