@@ -55,9 +55,9 @@ class AgonyzRequest
     private array $requestResults = [];
 
     /**
-     * @ORM\Column(type="boolean")
+     * @ORM\Column(type="boolean", nullable=true)
      */
-    private bool $successful;
+    private ?bool $successful;
 
     /**
      * @return int
@@ -158,7 +158,7 @@ class AgonyzRequest
     /**
      * @return bool
      */
-    public function isSuccessful(): bool
+    public function isSuccessful(): ?bool
     {
         return $this->successful;
     }
@@ -166,7 +166,7 @@ class AgonyzRequest
     /**
      * @param bool $successful
      */
-    public function setSuccessful(bool $successful): void
+    public function setSuccessful(?bool $successful): void
     {
         $this->successful = $successful;
     }

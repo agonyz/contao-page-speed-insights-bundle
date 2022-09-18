@@ -3,7 +3,6 @@
 namespace Agonyz\ContaoPageSpeedInsightsBundle\EventListener;
 
 use Agonyz\ContaoPageSpeedInsightsBundle\Service\Request\RequestHandler;
-use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpKernel\Event\TerminateEvent;
 use Symfony\Component\Routing\RouterInterface;
 

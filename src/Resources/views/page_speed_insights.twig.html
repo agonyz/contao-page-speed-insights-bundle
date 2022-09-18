@@ -15,7 +15,7 @@ There was an error with the api request!
 <script src="{{ asset('bundles/agonyzcontaopagespeedinsights/script/progressbar.js') }}" type="text/javascript"></script>
 <script src="{{ asset('bundles/agonyzcontaopagespeedinsights/script/fetch-handler.js') }}" type="text/javascript"></script>
 <div class="tl_listing_container">
-    {% if pageSpeedInsights != 'error' %}
+    {% if pageSpeedInsights != 'error' and pageSpeedInsights != 'running' %}
     <h2>Information {% if timestamp is defined %}- {{ timestamp|date('d.m.Y | H:i') }} {% endif %}</h2><br>
     {% endif %}
     {% if pageSpeedInsights == 'error' %}
@@ -43,16 +43,21 @@ There was an error with the api request!
         </tbody>
     </table>
     {% endif %}
+    {% if pageSpeedInsights != 'running' %}
     <br>
     <br>
     <button id="agonyz-make-new-request" class="agonyz-button"><span>Make Request</span></button>
     </div>
+    {% endif %}
     <div id="agonyz-progress-container" class="{% if pageSpeedInsights == 'error' %}hidden{% endif %}">
         <div id="progress-information">
             New request results are generated right now.
         </div>
         <div id="progressBar"></div>
     </div>
+    {% if pageSpeedInsights == 'running' %}
+    <div id="agonyz-request-is-running"></div>
+    {% endif %}
 
 </div>
 

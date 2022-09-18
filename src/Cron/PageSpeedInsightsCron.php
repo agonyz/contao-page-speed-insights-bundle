@@ -30,7 +30,5 @@ class PageSpeedInsightsCron
     {
         $this->contaoFramework->initialize();
         $this->requestHandler->request();
-        #$this->requestCacheHandler->deleteCacheKey();
-        #$this->requestCacheHandler->createCacheKey();
     }
 }

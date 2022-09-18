@@ -48,6 +48,9 @@ class PageSpeedInsightsController extends AbstractController
         elseif (!$latestRequest->getRequestResults() && !$latestRequest->isRequestRunning() && !$latestRequest->isSuccessful()) {
             $pageSpeedInsights = 'error';
         }
+        elseif (!$latestRequest->getRequestResults() && $latestRequest->isRequestRunning() && !$latestRequest->isSuccessful()) {
+            $pageSpeedInsights = 'running';
+        }
         else {
             return new Response(
                 $this->twig->render(

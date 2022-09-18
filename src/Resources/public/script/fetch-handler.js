@@ -15,12 +15,14 @@ function getRequestProgress(){
                     pageSpeedInformationContainer.style.display = 'block';
                 }
                 progressBarContainer.style.display = 'none';
+                if(document.getElementById('agonyz-request-is-running')) {
+                    setTimeout(() => location.reload(), 50);
+                }
             }
         });
 }
 
 document.addEventListener('DOMContentLoaded', function () {
-    var removeResultsButton = document.getElementById('agonyz-remove-cached-results');
     var makeRequestButton = document.getElementById('agonyz-make-new-request');
     progressBarContainer = document.getElementById('agonyz-progress-container');
     pageSpeedInformationContainer = document.getElementById('agonyz-page-speed-information');
@@ -58,14 +60,13 @@ document.addEventListener('DOMContentLoaded', function () {
 
     getRequestProgress();
 
-    makeRequestButton.addEventListener('click', function () {
-        fetch(MAKE_REQUEST_URL)
-            .then((response) => {
-                if(pageSpeedInformationContainer !== null) {
-                    pageSpeedInformationContainer.style.display = 'none';
-                }
-                progressBarContainer.style.display = 'block';
-            });
-        setTimeout(() => getRequestProgress(), 500);
-    }, false);
+    if(makeRequestButton !== null) {
+        makeRequestButton.addEventListener('click', function () {
+            fetch(MAKE_REQUEST_URL)
+                .then((response) => {
+                    setTimeout(() => location.reload(), 100);
+                });
+            setTimeout(() => getRequestProgress(), 500);
+        }, false);
+    }
 },false);

@@ -34,12 +34,13 @@ class RequestHandler
         $request->setRequestFinalCount(0);
         $request->setRequestCounter(0);
         $request->setCreated((new \DateTime()));
-        $request->setSuccessful(false);
+        $request->setSuccessful(null);
         $this->entityManager->persist($request);
         $this->entityManager->flush();
 
         if (!($domainResults = $this->getDomainResults->getDomainResults($request))) {
             $request->setRequestRunning(false);
+            $request->setSuccessful(false);
             $this->entityManager->persist($request);
             $this->entityManager->flush();
             return false;
