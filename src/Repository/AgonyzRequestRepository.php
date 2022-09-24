@@ -12,6 +12,7 @@ namespace Agonyz\ContaoPageSpeedInsightsBundle\Repository;
 
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\NonUniqueResultException;
+use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 use Agonyz\ContaoPageSpeedInsightsBundle\Entity\AgonyzRequest;
 
@@ -37,6 +38,14 @@ class AgonyzRequestRepository extends ServiceEntityRepository
             ->orderBy('a.id', 'DESC')
             ->setMaxResults(1)
             ->getQuery()
-            ->getOneOrNullResult();
+            ->getOneOrNullResult()
+        ;
+    }
+
+    public function createRequestOrderedByLatestQueryBuilder(): QueryBuilder
+    {
+        return $this->createQueryBuilder('a')
+            ->orderBy('a.id', 'DESC')
+        ;
     }
 }

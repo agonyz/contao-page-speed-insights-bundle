@@ -20,7 +20,7 @@ There was an error with the api request!
     {% endif %}
     {% if pageSpeedInsights == 'error' %}
     {% include '@AgonyzContaoPageSpeedInsights/modules/status_error.twig.html' %}
-    {% elseif pageSpeedInsights is iterable %}
+    {% elseif (pageSpeedInsights is iterable) and (pageSpeedInsights is not empty) %}
     <div id="agonyz-page-speed-information">
     <table class="page-speed-insights-table">
         <thead>
@@ -61,11 +61,11 @@ There was an error with the api request!
     {% if pageSpeedInsights == 'running' %}
     <div id="agonyz-request-is-running"></div>
     {% endif %}
-
 </div>
 
 <script>
     const MAKE_REQUEST_URL = "{{ path('agonyz_contao_page_speed_insights_make_request') }}";
     const REQUEST_PROGRESS_URL = "{{ path('agonyz_contao_page_speed_insights_request_progress') }}";
+    const REQUEST_STATUS_REFRESH_RATE = parseInt("{{requestStatusRefreshRate}}");
 </script>
 {% endblock %}

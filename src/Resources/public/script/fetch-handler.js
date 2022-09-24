@@ -3,13 +3,16 @@ function getRequestProgress(){
     fetch(REQUEST_PROGRESS_URL)
         .then((response) => response.json())
         .then((data) => {
-            console.log(data);
             let progressValue = (data['requestCounter'] / data['requestFinalCount'])
             if(typeof progressBar !== 'undefined' && !isNaN(progressValue)) {
                 progressBar.animate(progressValue);
             }
             if(data['requestDone'] !== true) {
-                setTimeout(getRequestProgress, 5000);
+                if(typeof REQUEST_STATUS_REFRESH_RATE !== 'undefined') {
+                    setTimeout(getRequestProgress, REQUEST_STATUS_REFRESH_RATE);
+                } else {
+                    setTimeout(getRequestProgress, 5000);
+                }
             } else {
                 if(pageSpeedInformationContainer !== null) {
                     pageSpeedInformationContainer.style.display = 'block';

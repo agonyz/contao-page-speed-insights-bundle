@@ -25,12 +25,14 @@ class PageSpeedInsightsController extends AbstractController
     private TwigEnvironment $twig;
     private string $apiKey;
     private EntityManagerInterface $entityManager;
+    private int $requestStatusRefreshRate;
 
-    public function __construct(TwigEnvironment $twig, string $apiKey, EntityManagerInterface $entityManager)
+    public function __construct(TwigEnvironment $twig, string $apiKey, EntityManagerInterface $entityManager, int $requestStatusRefreshRate)
     {
         $this->twig = $twig;
         $this->apiKey = $apiKey;
         $this->entityManager = $entityManager;
+        $this->requestStatusRefreshRate = $requestStatusRefreshRate;
     }
 
     /**
@@ -54,19 +56,21 @@ class PageSpeedInsightsController extends AbstractController
         else {
             return new Response(
                 $this->twig->render(
-                    '@AgonyzContaoPageSpeedInsights/page_speed_insights.twig.html',
+                    '@AgonyzContaoPageSpeedInsights/page_speed_insights.html.twig',
                     [
                         'pageSpeedInsights' => $latestRequest->getRequestResults(),
-                        'timestamp' => $latestRequest->getCreated()
+                        'timestamp' => $latestRequest->getCreated(),
+                        'requestStatusRefreshRate' => $this->requestStatusRefreshRate
                     ]
                 )
             );
         }
         return new Response(
             $this->twig->render(
-                '@AgonyzContaoPageSpeedInsights/page_speed_insights.twig.html',
+                '@AgonyzContaoPageSpeedInsights/page_speed_insights.html.twig',
                 [
                     'pageSpeedInsights' => $pageSpeedInsights,
+                    'requestStatusRefreshRate' => $this->requestStatusRefreshRate
                 ]
             )
         );
@@ -84,11 +88,12 @@ class PageSpeedInsightsController extends AbstractController
         {
             return new Response(
                 $this->twig->render(
-                    '@AgonyzContaoPageSpeedInsights/page_speed_insights.twig.html',
+                    '@AgonyzContaoPageSpeedInsights/page_speed_insights.html.twig',
                     [
                         'pageSpeedInsights' => $request->getRequestResults(),
                         'timestamp' => $request->getCreated(),
-                        'isRequestById' => true
+                        'isRequestById' => true,
+                        'requestStatusRefreshRate' => $this->requestStatusRefreshRate
                     ]
                 )
             );

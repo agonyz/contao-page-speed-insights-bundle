@@ -37,6 +37,14 @@ class Configuration implements ConfigurationInterface
             ->info('This value determines how many asynchronous requests can be send at the same time')
             ->defaultValue(10)
             ->end()
+            ->integerNode('request_pagination')
+            ->info('This value determines how many requests are shown per page in the list view')
+            ->defaultValue(15)
+            ->end()
+            ->integerNode('request_status_refresh_rate')
+            ->info('This value determines how often the request status is refreshed (in milliseconds)')
+            ->defaultValue(5000)
+            ->end()
             ->end()
         ;
 

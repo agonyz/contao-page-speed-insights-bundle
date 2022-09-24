@@ -1,0 +1,14 @@
+.pagination > .pagination-previous.disabled {
+    color: grey;
+    opacity: 0.3;
+}
+
+.pagination > .pagination-next.disabled {
+    color: grey;
+    opacity: 0.3;
+}
+
+.pagination > .current {
+    color: #009879;
+}
+

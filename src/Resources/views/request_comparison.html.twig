@@ -1,0 +1,68 @@
+{% extends "@ContaoCore/Backend/be_page.html.twig" %}
+
+{% block headline %}
+Page Speed Insights - Comparison
+{% endblock %}
+
+{% block error %}
+{% endblock %}
+
+{% block main %}
+<link href="{{ asset('bundles/agonyzcontaopagespeedinsights/style/main.css') }}" rel="stylesheet" type="text/css"/>
+<div class="tl_listing_container">
+    <h2>Comparison</h2><br>
+
+    <table class="page-speed-insights-table">
+        <thead>
+        <tr>
+            <th class="header-text">Type</th>
+            <th class="header-text">ID</th>
+            <th class="header-text">Created</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>Latest</td>
+            <td><a class="agonyz-page-speed-insights link" target="_blank" href="{{ path('agonyz_contao_page_speed_insights_by_id', {id: comparison['latestRequest'].id}) }}">{{comparison['latestRequest'].id}}</a></td>
+            <td>{{comparison['latestRequest'].created|date('d.m.Y - H:i')}}</td>
+        </tr>
+        <tr>
+            <td>Comparison</td>
+            <td><a class="agonyz-page-speed-insights link" target="_blank" href="{{ path('agonyz_contao_page_speed_insights_by_id', {id: comparison['request'].id}) }}">{{comparison['request'].id}}</a></td>
+            <td>{{comparison['request'].created|date('d.m.Y - H:i')}}</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <br><br><br>
+
+    {% if(comparison['comparison'] is defined) and (comparison['comparison'] is iterable) %}
+    <table class="page-speed-insights-table">
+        <thead>
+        <tr>
+            <th class="header-text">Domain</th>
+            <th class="header-text">Mobile</th>
+            <th class="header-text">Comparison</th>
+            <th class="header-text">Desktop</th>
+            <th class="header-text">Comparison</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% if comparison is iterable %}
+        {% for domain, compare in comparison['comparison'] %}
+        <tr>
+            <td><a class="agonyz-page-speed-insights link" target="_blank" href="{{domain}}">{{domain}}</a></td>
+            <td>{{compare['results']['mobile']['latestRequest']}} ({{compare['results']['mobile']['request']}})</td>
+            <td class="{% if compare['results']['mobile']['comparison'] < 0 %}agonyz-color-code-failed{% elseif compare['results']['mobile']['comparison'] == 0 %}agonyz-color-code-running{% else %}agonyz-color-code-ok{% endif %}">{{compare['results']['mobile']['comparison']}}</td>
+            <td>{{compare['results']['desktop']['latestRequest']}} ({{compare['results']['desktop']['request']}})</td>
+            <td class="{% if compare['results']['desktop']['comparison'] < 0 %}agonyz-color-code-failed{% elseif compare['results']['desktop']['comparison'] == 0 %}agonyz-color-code-running{% else %}agonyz-color-code-ok{% endif %}">{{compare['results']['desktop']['comparison']}}</td>
+        </tr>
+        {% endfor %}
+        {% endif %}
+        </tbody>
+    </table>
+    {% else %}
+    <p>Requests could not be compared.</p>
+    {% endif %}
+</div>
+{% endblock %}

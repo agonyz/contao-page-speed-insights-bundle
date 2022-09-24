@@ -28,10 +28,17 @@
     "require": {
         "php": "^7.4 || ^8.0",
         "contao/core-bundle": "^4.13",
-        "guzzlehttp/guzzle": "^7.4"
+        "guzzlehttp/guzzle": "^7.4",
+        "babdev/pagerfanta-bundle": "^3.7",
+        "pagerfanta/doctrine-orm-adapter": "^3.6",
+        "pagerfanta/twig": "^3.6"
     },
     "require-dev": {
-        "contao/easy-coding-standard": "^5.3"
+        "contao/easy-coding-standard": "^5.3",
+        "contao/manager-plugin": "^2.0"
+    },
+    "conflict": {
+        "contao/manager-plugin": "<2.0 || >=3.0"
     },
     "extra": {
         "contao-manager-plugin": "Agonyz\\ContaoPageSpeedInsightsBundle\\ContaoManager\\Plugin"
