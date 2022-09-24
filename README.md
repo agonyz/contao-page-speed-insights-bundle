@@ -19,6 +19,7 @@ agonyz_contao_page_speed_insights:
   api_key: your-secret-api-key
   request_retries: 3
   pool_request_concurrency: 10
+  request_pagination: 15
   request_status_refresh_rate: 5000
 ```
 
