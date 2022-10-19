@@ -47,38 +47,37 @@ class PageSpeedInsightsController extends AbstractController
      */
     public function index(): Response
     {
-        if(!$this->security->isGranted('ROLE_ADMIN') && !$this->security->isGranted('contao_user.agonyz_page_speed_insights', 'agonyz_page_speed_insights')) {
+        if (!$this->security->isGranted('ROLE_ADMIN') && !$this->security->isGranted('contao_user.agonyz_page_speed_insights', 'agonyz_page_speed_insights')) {
             throw new AccessDeniedException('Not enough permissions to access this controller.');
         }
 
         $latestRequest = $this->entityManager->getRepository(AgonyzRequest::class)->getLatestRequest();
+
         if (!$this->apiKey || !$latestRequest) {
             $pageSpeedInsights = 'error';
-        }
-        elseif (!$latestRequest->getRequestResults() && !$latestRequest->isRequestRunning() && !$latestRequest->isSuccessful()) {
+        } elseif (!$latestRequest->getRequestResults() && !$latestRequest->isRequestRunning() && !$latestRequest->isSuccessful()) {
             $pageSpeedInsights = 'error';
-        }
-        elseif (!$latestRequest->getRequestResults() && $latestRequest->isRequestRunning() && !$latestRequest->isSuccessful()) {
+        } elseif (!$latestRequest->getRequestResults() && $latestRequest->isRequestRunning() && !$latestRequest->isSuccessful()) {
             $pageSpeedInsights = 'running';
-        }
-        else {
+        } else {
             return new Response(
                 $this->twig->render(
                     '@AgonyzContaoPageSpeedInsights/page_speed_insights.html.twig',
                     [
                         'pageSpeedInsights' => $latestRequest->getRequestResults(),
                         'timestamp' => $latestRequest->getCreated(),
-                        'requestStatusRefreshRate' => $this->requestStatusRefreshRate
+                        'requestStatusRefreshRate' => $this->requestStatusRefreshRate,
                     ]
                 )
             );
         }
+
         return new Response(
             $this->twig->render(
                 '@AgonyzContaoPageSpeedInsights/page_speed_insights.html.twig',
                 [
                     'pageSpeedInsights' => $pageSpeedInsights,
-                    'requestStatusRefreshRate' => $this->requestStatusRefreshRate
+                    'requestStatusRefreshRate' => $this->requestStatusRefreshRate,
                 ]
             )
         );
@@ -92,23 +91,22 @@ class PageSpeedInsightsController extends AbstractController
      */
     public function requestById(int $id): Response
     {
-        if(!$this->security->isGranted('ROLE_ADMIN') && !$this->security->isGranted('contao_user.agonyz_page_speed_insights', 'agonyz_page_speed_insights')) {
+        if (!$this->security->isGranted('ROLE_ADMIN') && !$this->security->isGranted('contao_user.agonyz_page_speed_insights', 'agonyz_page_speed_insights')) {
             throw new AccessDeniedException('Not enough permissions to access this controller.');
         }
 
         $request = $this->entityManager->getRepository(AgonyzRequest::class)->findOneBy(['id' => $id]);
-        {
-            return new Response(
-                $this->twig->render(
-                    '@AgonyzContaoPageSpeedInsights/request_results_by_id.html.twig',
-                    [
-                        'pageSpeedInsights' => $request->getRequestResults(),
-                        'timestamp' => $request->getCreated(),
-                        'requestStatusRefreshRate' => $this->requestStatusRefreshRate
-                    ]
-                )
-            );
-        }
+
+        return new Response(
+            $this->twig->render(
+                '@AgonyzContaoPageSpeedInsights/request_results_by_id.html.twig',
+                [
+                    'pageSpeedInsights' => $request->getRequestResults(),
+                    'timestamp' => $request->getCreated(),
+                    'requestStatusRefreshRate' => $this->requestStatusRefreshRate,
+                ]
+            )
+        );
     }
 
     /**
@@ -119,7 +117,7 @@ class PageSpeedInsightsController extends AbstractController
      */
     public function makeRequest()
     {
-        if(!$this->security->isGranted('ROLE_ADMIN') && !$this->security->isGranted('contao_user.agonyz_page_speed_insights', 'agonyz_page_speed_insights')) {
+        if (!$this->security->isGranted('ROLE_ADMIN') && !$this->security->isGranted('contao_user.agonyz_page_speed_insights', 'agonyz_page_speed_insights')) {
             throw new AccessDeniedException('Not enough permissions to access this controller.');
         }
 
@@ -136,8 +134,9 @@ class PageSpeedInsightsController extends AbstractController
     {
         $latestRequest = $this->entityManager->getRepository(AgonyzRequest::class)->getLatestRequest();
 
-        if(!$latestRequest) {
+        if (!$latestRequest) {
             $data['requestDone'] = true;
+
             return new JsonResponse($data, Response::HTTP_OK);
         }
 
@@ -146,9 +145,10 @@ class PageSpeedInsightsController extends AbstractController
         $data['requestRunning'] = $latestRequest->isRequestRunning();
         $data['requestDone'] = false;
 
-        if($data['requestFinalCount'] === $data['requestCounter'] && $data['requestRunning'] === false)  {
+        if ($data['requestFinalCount'] === $data['requestCounter'] && false === $data['requestRunning']) {
             $data['requestDone'] = true;
         }
+
         return new JsonResponse($data, Response::HTTP_OK);
     }
 }

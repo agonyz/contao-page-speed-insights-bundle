@@ -45,7 +45,7 @@ class BackendMenuListener
             return;
         }
 
-        if(!$this->security->isGranted('ROLE_ADMIN') && !$this->security->isGranted('contao_user.agonyz_page_speed_insights', 'agonyz_page_speed_insights')) {
+        if (!$this->security->isGranted('ROLE_ADMIN') && !$this->security->isGranted('contao_user.agonyz_page_speed_insights', 'agonyz_page_speed_insights')) {
             return;
         }
 
@@ -83,7 +83,7 @@ class BackendMenuListener
             ->setLinkAttribute('title', $this->translator->trans('make_request_title', [], 'AgonyzContaoPageSpeedBundle'))
             ->setLinkAttribute('class', 'agonyz-page-speed-insights')
             ->setCurrent('agonyz_contao_page_speed_insights_main' === $this->requestStack->getCurrentRequest()->get('_controller'))
-            ->setExtra('translation_domain', false);
+            ->setExtra('translation_domain', false)
         ;
 
         $parentNode->addChild($childNode);
@@ -101,7 +101,7 @@ class BackendMenuListener
             ->setLinkAttribute('title', $this->translator->trans('overview_title', [], 'AgonyzContaoPageSpeedBundle'))
             ->setLinkAttribute('class', 'agonyz-page-speed-insights')
             ->setCurrent('agonyz_contao_page_speed_insights_request_list' === $this->requestStack->getCurrentRequest()->get('_controller'))
-            ->setExtra('translation_domain', false);
+            ->setExtra('translation_domain', false)
         ;
 
         $parentNode->addChild($childNode);

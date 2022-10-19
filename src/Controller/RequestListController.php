@@ -48,7 +48,7 @@ class RequestListController extends AbstractController
      */
     public function requestResults(int $page = 1): Response
     {
-        if(!$this->security->isGranted('ROLE_ADMIN') && !$this->security->isGranted('contao_user.agonyz_page_speed_insights', 'agonyz_page_speed_insights')) {
+        if (!$this->security->isGranted('ROLE_ADMIN') && !$this->security->isGranted('contao_user.agonyz_page_speed_insights', 'agonyz_page_speed_insights')) {
             throw new AccessDeniedException('Not enough permissions to access this controller.');
         }
 
@@ -62,7 +62,7 @@ class RequestListController extends AbstractController
             $this->twig->render(
                 '@AgonyzContaoPageSpeedInsights/request_list.html.twig',
                 [
-                    'pager' => $pagerfanta
+                    'pager' => $pagerfanta,
                 ]
             )
         );
@@ -76,12 +76,13 @@ class RequestListController extends AbstractController
      */
     public function removeRequestById(int $id): JsonResponse
     {
-        if(!$this->security->isGranted('ROLE_ADMIN') && !$this->security->isGranted('contao_user.agonyz_page_speed_insights', 'agonyz_page_speed_insights')) {
+        if (!$this->security->isGranted('ROLE_ADMIN') && !$this->security->isGranted('contao_user.agonyz_page_speed_insights', 'agonyz_page_speed_insights')) {
             throw new AccessDeniedException('Not enough permissions to access this controller.');
         }
 
         $request = $this->entityManager->getRepository(AgonyzRequest::class)->findOneBy(['id' => $id]);
-        if(!$request) {
+
+        if (!$request) {
             return new JsonResponse('', Response::HTTP_BAD_REQUEST);
         }
         $this->entityManager->remove($request);
@@ -98,7 +99,7 @@ class RequestListController extends AbstractController
      */
     public function compareRequests(int $id): Response
     {
-        if(!$this->security->isGranted('ROLE_ADMIN') && !$this->security->isGranted('contao_user.agonyz_page_speed_insights', 'agonyz_page_speed_insights')) {
+        if (!$this->security->isGranted('ROLE_ADMIN') && !$this->security->isGranted('contao_user.agonyz_page_speed_insights', 'agonyz_page_speed_insights')) {
             throw new AccessDeniedException('Not enough permissions to access this controller.');
         }
 
@@ -110,7 +111,7 @@ class RequestListController extends AbstractController
             $this->twig->render(
                 '@AgonyzContaoPageSpeedInsights/request_comparison.html.twig',
                 [
-                    'comparison' => $comparison
+                    'comparison' => $comparison,
                 ]
             )
         );

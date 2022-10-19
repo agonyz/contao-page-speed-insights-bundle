@@ -13,13 +13,11 @@ declare(strict_types=1);
 namespace Agonyz\ContaoPageSpeedInsightsBundle\Service;
 
 use Agonyz\ContaoPageSpeedInsightsBundle\Entity\AgonyzRequest;
-use Agonyz\ContaoPageSpeedInsightsBundle\Repository\AgonyzRequestRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\Pool;
 use GuzzleHttp\Psr7\Response;
-use Agonyz\ContaoPageSpeedInsightsBundle\Service\RequestDatabaseHandler;
 
 class GetDomainResults
 {
@@ -67,7 +65,7 @@ class GetDomainResults
 
         $this->request = $request;
         $retries = $this->requestRetries * 2; // retries for each strategy
-        $this->request->setRequestFinalCount(count($domainUrls) * $retries);
+        $this->request->setRequestFinalCount(\count($domainUrls) * $retries);
         $this->entityManager->persist($this->request);
         $this->entityManager->flush();
 

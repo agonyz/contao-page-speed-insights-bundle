@@ -13,8 +13,8 @@ declare(strict_types=1);
 namespace Agonyz\ContaoPageSpeedInsightsBundle\Service\Request;
 
 use Agonyz\ContaoPageSpeedInsightsBundle\Entity\AgonyzRequest;
-use Doctrine\ORM\EntityManagerInterface;
 use Agonyz\ContaoPageSpeedInsightsBundle\Service\GetDomainResults;
+use Doctrine\ORM\EntityManagerInterface;
 
 class RequestHandler
 {
@@ -43,6 +43,7 @@ class RequestHandler
             $request->setSuccessful(false);
             $this->entityManager->persist($request);
             $this->entityManager->flush();
+
             return false;
         }
 

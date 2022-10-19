@@ -32,7 +32,7 @@ class Plugin implements BundlePluginInterface, RoutingPluginInterface, ConfigPlu
             BundleConfig::create(AgonyzContaoPageSpeedInsightsBundle::class)
                 ->setLoadAfter([ContaoCoreBundle::class]),
             BundleConfig::create(BabDevPagerfantaBundle::class)
-                ->setLoadAfter([ContaoCoreBundle::class])
+                ->setLoadAfter([ContaoCoreBundle::class]),
         ];
     }
 
@@ -46,7 +46,7 @@ class Plugin implements BundlePluginInterface, RoutingPluginInterface, ConfigPlu
         return $resolver->resolve($file)->load($file);
     }
 
-    public function registerContainerConfiguration(LoaderInterface $loader, array $managerConfig)
+    public function registerContainerConfiguration(LoaderInterface $loader, array $managerConfig): void
     {
         $loader->load('@AgonyzContaoPageSpeedInsightsBundle/Resources/config/packages/pagerfanta.yml');
     }

@@ -1,5 +1,15 @@
 <?php
 
+declare(strict_types=1);
+
+/*
+ * This file is part of agonyz/contao-page-speed-insights-bundle.
+ *
+ * (c) 2022 agonyz
+ *
+ * @license LGPL-3.0-or-later
+ */
+
 namespace Agonyz\ContaoPageSpeedInsightsBundle\EventListener;
 
 use Agonyz\ContaoPageSpeedInsightsBundle\Service\Request\RequestHandler;
@@ -21,11 +31,12 @@ class TerminateRequestListener
         $this->security = $security;
     }
 
-    public function onKernelTerminate(TerminateEvent $event)
+    public function onKernelTerminate(TerminateEvent $event): void
     {
         $currentRoute = $this->router->match($event->getRequest()->getPathInfo());
+
         if ('agonyz_contao_page_speed_insights_make_request' === $currentRoute['_route']) {
-            if(!$this->security->isGranted('ROLE_ADMIN') && !$this->security->isGranted('contao_user.agonyz_page_speed_insights', 'agonyz_page_speed_insights')) {
+            if (!$this->security->isGranted('ROLE_ADMIN') && !$this->security->isGranted('contao_user.agonyz_page_speed_insights', 'agonyz_page_speed_insights')) {
                 throw new AccessDeniedException('Not enough permissions to access this controller.');
             }
 
