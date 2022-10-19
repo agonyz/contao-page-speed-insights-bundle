@@ -58,6 +58,6 @@ Documentation: https://docs.contao.org/dev/framework/cron/#using-service-tagging
 
 
 ## Page Speed Insights
-In the backend navigate to the ```Pagespeed-Insights``` - entry point under ```SYSTEM```.   
+In the backend navigate to the ```Pagespeed-Insights``` - entry point.   
 
 ![psibundle](docs/page_speed_insights_bundle.png?raw=true "psibundle")

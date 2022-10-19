@@ -1,7 +1,8 @@
 {% extends "@ContaoCore/Backend/be_page.html.twig" %}
 
+{% trans_default_domain 'AgonyzContaoPageSpeedBundle' %}
 {% block headline %}
-Page Speed Insights - Comparison
+Page Speed Insights - {{ 'comparison'|trans }}
 {% endblock %}
 
 {% block error %}
@@ -10,24 +11,24 @@ Page Speed Insights - Comparison
 {% block main %}
 <link href="{{ asset('bundles/agonyzcontaopagespeedinsights/style/main.css') }}" rel="stylesheet" type="text/css"/>
 <div class="tl_listing_container">
-    <h2>Comparison</h2><br>
+    <h2>{{ 'comparison'|trans }} </h2><br>
 
     <table class="page-speed-insights-table">
         <thead>
         <tr>
             <th class="header-text">Type</th>
             <th class="header-text">ID</th>
-            <th class="header-text">Created</th>
+            <th class="header-text">{{ 'created_at'|trans }}</th>
         </tr>
         </thead>
         <tbody>
         <tr>
-            <td>Latest</td>
+            <td>{{ 'latest'|trans }}</td>
             <td><a class="agonyz-page-speed-insights link" target="_blank" href="{{ path('agonyz_contao_page_speed_insights_by_id', {id: comparison['latestRequest'].id}) }}">{{comparison['latestRequest'].id}}</a></td>
             <td>{{comparison['latestRequest'].created|date('d.m.Y - H:i')}}</td>
         </tr>
         <tr>
-            <td>Comparison</td>
+            <td>{{ 'comparison'|trans }}</td>
             <td><a class="agonyz-page-speed-insights link" target="_blank" href="{{ path('agonyz_contao_page_speed_insights_by_id', {id: comparison['request'].id}) }}">{{comparison['request'].id}}</a></td>
             <td>{{comparison['request'].created|date('d.m.Y - H:i')}}</td>
         </tr>
@@ -37,14 +38,16 @@ Page Speed Insights - Comparison
     <br><br><br>
 
     {% if(comparison['comparison'] is defined) and (comparison['comparison'] is iterable) %}
+    <h2>{{ 'latest'|trans }} ({{ 'comparison'|trans }})</h2>
+    <br>
     <table class="page-speed-insights-table">
         <thead>
         <tr>
             <th class="header-text">Domain</th>
             <th class="header-text">Mobile</th>
-            <th class="header-text">Comparison</th>
+            <th class="header-text">{{ 'comparison'|trans }}</th>
             <th class="header-text">Desktop</th>
-            <th class="header-text">Comparison</th>
+            <th class="header-text">{{ 'comparison'|trans }}</th>
         </tr>
         </thead>
         <tbody>
@@ -62,7 +65,7 @@ Page Speed Insights - Comparison
         </tbody>
     </table>
     {% else %}
-    <p>Requests could not be compared.</p>
+    <p>{{ 'request_not_comparable'|trans }}</p>
     {% endif %}
 </div>
 {% endblock %}

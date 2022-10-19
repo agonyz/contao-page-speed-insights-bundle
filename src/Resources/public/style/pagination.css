@@ -1,14 +1,9 @@
-.pagination > .pagination-previous.disabled {
+.pagination > .page-item.disabled {
     color: grey;
     opacity: 0.3;
 }
 
-.pagination > .pagination-next.disabled {
-    color: grey;
-    opacity: 0.3;
-}
-
-.pagination > .current {
+.pagination > .active {
     color: #009879;
 }
 

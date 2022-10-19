@@ -1,0 +1,29 @@
+# backend menu listener
+page_speed_insights: Pagespeed Insights
+make_request: Request
+make_request_title: View Pagespeed Insights for the root pages
+overview: Overview
+overview_title: View overview of existing Page Speed Insights requests
+
+# main twig template
+api_error_message: There was an error with the api request!
+make_request_button: Make Request
+overview_button: Overview
+progress_information: <p>New request results are generated right now.</p><p>If the progress indicator hangs, please look at the %link_start%Request Overview List%link_end% and the associated status.</p><p>It may be necessary to delete the affected request and start the process again.</p>
+
+# error twig template
+error_information: '<p>Please check the following configuration steps:</p><ul class="agonyz-page-speed-insights"><li class="agonyz-page-speed-insights">Did you deposite an <span class="important">api key</span>?</li><li class="agonyz-page-speed-insights">Do you have <span class="important">published root pages</span> in your project?</li><li class="agonyz-page-speed-insights">Do your root pages have <span class="important">valid dns</span> configuration?</li><li class="agonyz-page-speed-insights">Did you allow <span class="important">at least one</span> root page to be tracked via checkbox?</li></ul><br><p>Please clear your cache afterwards and restart the request queue via command or cronjob.</p><p>If the error persist please open an issue: <a class="agonyz-page-speed-insights link" target="_blank" href="https://github.com/agonyz/contao-page-speed-insights-bundle/issues">https://github.com/agonyz/contao-page-speed-insights-bundle/issues</a></p>'
+
+# request list twig template
+no_request_in_database_error: No request was found in the database!
+created_at: Created
+compare: Compare
+delete: Delete
+status_successful: successful
+status_running: running
+status_failed: failed
+
+# request comparison twig template
+comparison: Comparison
+latest: Latest
+request_not_comparable: Requests could not be compared.

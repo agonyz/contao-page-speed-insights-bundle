@@ -1,12 +1,13 @@
 {% extends "@ContaoCore/Backend/be_page.html.twig" %}
 
+{% trans_default_domain 'AgonyzContaoPageSpeedBundle' %}
 {% block headline %}
 Page Speed Insights
 {% endblock %}
 
 {% block error %}
 {% if pageSpeedInsights == 'error' %}
-There was an error with the api request!
+    {% trans %} api_error_message {% endtrans %}
 {% endif %}
 {% endblock %}
 
@@ -19,7 +20,7 @@ There was an error with the api request!
     <h2>Information {% if timestamp is defined %}- {{ timestamp|date('d.m.Y | H:i') }} {% endif %}</h2><br>
     {% endif %}
     {% if pageSpeedInsights == 'error' %}
-    {% include '@AgonyzContaoPageSpeedInsights/modules/status_error.twig.html' %}
+    {% include '@AgonyzContaoPageSpeedInsights/modules/status_error.html.twig' %}
     {% elseif (pageSpeedInsights is iterable) and (pageSpeedInsights is not empty) %}
     <div id="agonyz-page-speed-information">
     <table class="page-speed-insights-table">
@@ -43,18 +44,16 @@ There was an error with the api request!
         </tbody>
     </table>
     {% endif %}
-    {% if (pageSpeedInsights != 'running') and (isRequestById is not defined) %}
+    {% if pageSpeedInsights != 'running' %}
     <br>
     <br>
-    <button id="agonyz-make-new-request" class="agonyz-button"><span>Make Request</span></button>
-    <a href="{{ path('agonyz_contao_page_speed_insights_request_list') }}"><button id="agonyz-show-request-results-list" class="agonyz-button"><span>Request List</span></button></a>
+    <button id="agonyz-make-new-request" class="agonyz-button"><span>{% trans %} make_request_button {% endtrans %}</span></button>
+    <a href="{{ path('agonyz_contao_page_speed_insights_request_list') }}"><button id="agonyz-show-request-results-list" class="agonyz-button"><span>{% trans %} overview_button {% endtrans %}</span></button></a>
     </div>
     {% endif %}
     <div id="agonyz-progress-container" class="{% if pageSpeedInsights == 'error' %}hidden{% endif %}">
         <div id="progress-information">
-            <p>New request results are generated right now.</p>
-            <p>If the progress indicator hangs, please look at the <a target="_blank" href="{{ path('agonyz_contao_page_speed_insights_request_list') }}">Request List</a> and the associated status.</p>
-            <p>It may be necessary to delete the affected request and start the process again.</p>
+            <p>{{ 'progress_information' | trans({'%link_start%' : '<a class="agonyz-request-list" target="_blank" href="'~path('agonyz_contao_page_speed_insights_request_list')~'">', '%link_end%' : '</a>'}) | raw }}</p>
         </div>
         <div id="progressBar"></div>
     </div>

@@ -1,10 +1,3 @@
-<p>Please check the following configuration steps:</p>
-<ul class="agonyz-page-speed-insights">
-    <li class="agonyz-page-speed-insights">Did you deposite an <span class="important">api key</span>?</li>
-    <li class="agonyz-page-speed-insights">Do you have <span class="important">published root pages</span> in your project?</li>
-    <li class="agonyz-page-speed-insights">Do your root pages have <span class="important">valid dns</span> configuration?</li>
-    <li class="agonyz-page-speed-insights">Did you allow <span class="important">at least one</span> root page to be tracked via checkbox?</li>
-</ul>
-<br>
-<p>Please clear your cache afterwards and restart the request queue via command or cronjob.</p>
-<p>If the error persist please open an issue: <a class="agonyz-page-speed-insights link" target="_blank" href="https://github.com/agonyz/contao-page-speed-insights/issues">https://github.com/agonyz/contao-page-speed-insights/issues</a></p>
+{% trans_default_domain 'AgonyzContaoPageSpeedBundle' %}
+{{ 'error_information'|trans|raw }}
+

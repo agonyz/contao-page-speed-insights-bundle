@@ -4,10 +4,10 @@ services:
 
     Agonyz\ContaoPageSpeedInsightsBundle\EventListener\BackendMenuListener:
         arguments:
-            [ '@router', '@request_stack' ]
+            [ '@router', '@request_stack', '@security.helper', '@translator' ]
 
     Agonyz\ContaoPageSpeedInsightsBundle\EventListener\TerminateRequestListener:
         arguments:
-            [ '@router', '@Agonyz\ContaoPageSpeedInsightsBundle\Service\Request\RequestHandler' ]
+            [ '@router', '@Agonyz\ContaoPageSpeedInsightsBundle\Service\Request\RequestHandler', '@security.helper' ]
         tags:
             - { name: kernel.event_listener, event: kernel.terminate }
