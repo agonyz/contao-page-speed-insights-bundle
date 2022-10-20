@@ -12,10 +12,11 @@ declare(strict_types=1);
 
 namespace Agonyz\ContaoPageSpeedInsightsBundle\EventListener;
 
-use Agonyz\ContaoPageSpeedInsightsBundle\Controller\PageSpeedInsightsController;
 use Contao\CoreBundle\Event\MenuEvent;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Routing\RouterInterface;
+use Symfony\Component\Security\Core\Security;
+use Symfony\Contracts\Translation\TranslatorInterface;
 use Terminal42\ServiceAnnotationBundle\Annotation\ServiceTag;
 
 /**
@@ -23,35 +24,86 @@ use Terminal42\ServiceAnnotationBundle\Annotation\ServiceTag;
  */
 class BackendMenuListener
 {
-    protected $router;
-    protected $requestStack;
+    private $router;
+    private $requestStack;
+    private $security;
+    private $translator;
 
-    public function __construct(RouterInterface $router, RequestStack $requestStack)
+    public function __construct(RouterInterface $router, RequestStack $requestStack, Security $security, TranslatorInterface $translator)
     {
         $this->router = $router;
         $this->requestStack = $requestStack;
+        $this->security = $security;
+        $this->translator = $translator;
     }
 
     public function __invoke(MenuEvent $event): void
     {
-        $factory = $event->getFactory();
         $tree = $event->getTree();
 
         if ('mainMenu' !== $tree->getName()) {
             return;
         }
 
-        $contentNode = $tree->getChild('system');
+        if (!$this->security->isGranted('ROLE_ADMIN') && !$this->security->isGranted('contao_user.agonyz_page_speed_insights', 'agonyz_page_speed_insights')) {
+            return;
+        }
 
-        $node = $factory
-            ->createItem('agonyz-page-speed-insights')
-            ->setUri($this->router->generate(PageSpeedInsightsController::class))
-            ->setLabel('Pagespeed-Insights')
-            ->setLinkAttribute('title', 'Pagespeed Insights für die Root-Seiten ansehen')
-            ->setLinkAttribute('class', 'agonyz-page-speed-insights')
-            ->setCurrent(PageSpeedInsightsController::class === $this->requestStack->getCurrentRequest()->get('_controller'))
+        $this->addBackendMenuEntry($event);
+        $this->addMakeRequestNode($event);
+        $this->addOverviewNode($event);
+    }
+
+    private function addBackendMenuEntry(MenuEvent $event): void
+    {
+        $tree = $event->getTree();
+
+        $agonyzNode = $event->getFactory()
+            ->createItem('agonyz-page-speed-insights-menu-entry')
+            ->setChildrenAttribute('id', 'agonyz-page-speed-insights-menu-entry')
+            ->setUri('/contao?mtg=agonyz-page-speed-insights-menu-entry')
+            ->setLinkAttribute('onclick', "return AjaxRequest.toggleNavigation(this, 'agonyz-page-speed-insights-menu-entry', '/contao')")
+            ->setLabel($this->translator->trans('page_speed_insights', [], 'AgonyzContaoPageSpeedInsightsBundle'))
+            ->setLinkAttribute('class', 'group-agonyz-page-speed-insights')
+            ->setExtra('translation_domain', false)
         ;
 
-        $contentNode->addChild($node);
+        $tree->addChild($agonyzNode);
+    }
+
+    private function addMakeRequestNode(MenuEvent $event): void
+    {
+        $tree = $event->getTree();
+        $parentNode = $tree->getChild('agonyz-page-speed-insights-menu-entry');
+
+        $childNode = $event->getFactory()
+            ->createItem('agonyz-page-speed-insights')
+            ->setUri($this->router->generate('agonyz_contao_page_speed_insights_main'))
+            ->setLabel($this->translator->trans('make_request', [], 'AgonyzContaoPageSpeedInsightsBundle'))
+            ->setLinkAttribute('title', $this->translator->trans('make_request_title', [], 'AgonyzContaoPageSpeedInsightsBundle'))
+            ->setLinkAttribute('class', 'agonyz-page-speed-insights')
+            ->setCurrent('agonyz_contao_page_speed_insights_main' === $this->requestStack->getCurrentRequest()->get('_controller'))
+            ->setExtra('translation_domain', false)
+        ;
+
+        $parentNode->addChild($childNode);
+    }
+
+    private function addOverviewNode(MenuEvent $event): void
+    {
+        $tree = $event->getTree();
+        $parentNode = $tree->getChild('agonyz-page-speed-insights-menu-entry');
+
+        $childNode = $event->getFactory()
+            ->createItem('agonyz-page-speed-insights-request-list')
+            ->setUri($this->router->generate('agonyz_contao_page_speed_insights_request_list'))
+            ->setLabel($this->translator->trans('overview', [], 'AgonyzContaoPageSpeedInsightsBundle'))
+            ->setLinkAttribute('title', $this->translator->trans('overview_title', [], 'AgonyzContaoPageSpeedInsightsBundle'))
+            ->setLinkAttribute('class', 'agonyz-page-speed-insights')
+            ->setCurrent('agonyz_contao_page_speed_insights_request_list' === $this->requestStack->getCurrentRequest()->get('_controller'))
+            ->setExtra('translation_domain', false)
+        ;
+
+        $parentNode->addChild($childNode);
     }
 }

@@ -1,5 +1,15 @@
 <?php
 
+declare(strict_types=1);
+
+/*
+ * This file is part of agonyz/contao-page-speed-insights-bundle.
+ *
+ * (c) 2022 agonyz
+ *
+ * @license LGPL-3.0-or-later
+ */
+
 use Contao\CoreBundle\DataContainer\PaletteManipulator;
 
 $GLOBALS['TL_DCA']['tl_page']['fields']['activatePageSpeedInsights'] = [

@@ -1,4 +1,4 @@
-#page-speed-insights-table {
+.page-speed-insights-table {
     border-collapse: collapse;
     font-size: 0.9em;
     font-family: sans-serif;
@@ -7,29 +7,29 @@
     width: 65%;
 }
 
-#page-speed-insights-table thead tr {
+.page-speed-insights-table thead tr {
     background-color: #009879;
     text-align: left;
 }
 
-#page-speed-insights-table thead tr .header-text {
+.page-speed-insights-table thead tr .header-text {
     color: #fff;
 }
 
-#page-speed-insights-table th,
-#page-speed-insights-table td {
+.page-speed-insights-table th,
+.page-speed-insights-table td {
     padding: 12px 15px;
 }
 
-#page-speed-insights-table tbody tr {
+.page-speed-insights-table tbody tr {
     border-bottom: thin solid #dddddd;
 }
 
-#page-speed-insights-table tbody tr:nth-of-type(even) {
+.page-speed-insights-table tbody tr:nth-of-type(even) {
     background-color: #f3f3f3;
 }
 
-#page-speed-insights-table tbody tr:last-of-type {
+.page-speed-insights-table tbody tr:last-of-type {
     border-bottom: 2px solid #009879;
 }
 
@@ -110,5 +110,36 @@ pre code.agonyz-code {
     right: 0;
 }
 
+#progressBar {
+    margin: 20px;
+    width: 200px;
+    height: 200px;
+    position: relative;
+}
+
+#agonyz-page-speed-information {
+    display: none;
+}
+
+#agonyz-progress-container.hidden {
+    display: none;
+}
+
+
+.agonyz-color-code-ok {
+    background-color: #60A658;
+}
+
+.agonyz-color-code-running {
+    background-color: #ae911e;
+}
+
+.agonyz-color-code-failed {
+    background-color: #CD6060;
+}
+
+.agonyz-request-list {
+    color: #009879;
+}
 
 

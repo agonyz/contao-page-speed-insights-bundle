@@ -1,28 +1,46 @@
 <?php
 
+declare(strict_types=1);
+
+/*
+ * This file is part of agonyz/contao-page-speed-insights-bundle.
+ *
+ * (c) 2022 agonyz
+ *
+ * @license LGPL-3.0-or-later
+ */
+
 namespace Agonyz\ContaoPageSpeedInsightsBundle\EventListener;
 
+use Agonyz\ContaoPageSpeedInsightsBundle\Service\Request\RequestHandler;
+use Contao\CoreBundle\Exception\AccessDeniedException;
 use Symfony\Component\HttpKernel\Event\TerminateEvent;
 use Symfony\Component\Routing\RouterInterface;
-use Agonyz\ContaoPageSpeedInsightsBundle\Service\RequestCacheHandler;
+use Symfony\Component\Security\Core\Security;
 
 class TerminateRequestListener
 {
     private RouterInterface $router;
-    private RequestCacheHandler $requestCacheHandler;
+    private RequestHandler $requestHandler;
+    private Security $security;
 
-    public function __construct(RouterInterface $router, RequestCacheHandler $requestCacheHandler)
+    public function __construct(RouterInterface $router, RequestHandler $requestHandler, Security $security)
     {
         $this->router = $router;
-        $this->requestCacheHandler = $requestCacheHandler;
+        $this->requestHandler = $requestHandler;
+        $this->security = $security;
     }
 
-    public function onKernelTerminate(TerminateEvent $event)
+    public function onKernelTerminate(TerminateEvent $event): void
     {
         $currentRoute = $this->router->match($event->getRequest()->getPathInfo());
+
         if ('agonyz_contao_page_speed_insights_make_request' === $currentRoute['_route']) {
-            $this->requestCacheHandler->deleteCacheKey();
-            $this->requestCacheHandler->createCacheKey();
+            if (!$this->security->isGranted('ROLE_ADMIN') && !$this->security->isGranted('contao_user.agonyz_page_speed_insights', 'agonyz_page_speed_insights')) {
+                throw new AccessDeniedException('Not enough permissions to access this controller.');
+            }
+
+            $this->requestHandler->request();
         }
     }
 }

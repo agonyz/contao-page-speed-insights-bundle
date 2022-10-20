@@ -1,0 +1,9 @@
+.pagination > .page-item.disabled {
+    color: grey;
+    opacity: 0.3;
+}
+
+.pagination > .active {
+    color: #009879;
+}
+

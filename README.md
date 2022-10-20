@@ -17,10 +17,10 @@ You can edit the configuration in your ```config/config.yml```
 # Agonyz Page Speed Insights
 agonyz_contao_page_speed_insights:
   api_key: your-secret-api-key
-  cache_ttl: 84600 # default 0 -> will be saved till it is deleted
   request_retries: 3
-  cache_key: agonyz_page_speed_insights_cache
-  pool_request_concurrency: 10 
+  pool_request_concurrency: 10
+  request_pagination: 15
+  request_status_refresh_rate: 5000
 ```
 
 Please remember to always clear the cache after each change in the ```config.yml```.   
@@ -31,8 +31,7 @@ In the root page configuration navigate to ```Page Speed Insights Bundle``` and 
 
 ## Commands & Cronjob
 ### Commands
-- ```agonyz-page-speed-insights:delete-cached-results``` - deletes the previously cached request results
-- ```agonyz-page-speed-insights:request``` - deletes the previously cached request results and generates new ones
+- ```agonyz-page-speed-insights:request``` - generates new request results and saves them to the database
 
 ### Cronjob
 You can either implement your own cronjob or use contao cron
@@ -53,12 +52,12 @@ services:
         name: contao.cronjob
         interval: '0 */24 * * *'
     arguments:
-      [ '@contao.framework', '@Agonyz\ContaoPageSpeedInsightsBundle\Service\RequestCacheHandler']
+      [ '@contao.framework', '@Agonyz\ContaoPageSpeedInsightsBundle\Service\Request\RequestHandler']
 ```
 Documentation: https://docs.contao.org/dev/framework/cron/#using-service-tagging
 
 
 ## Page Speed Insights
-In the backend navigate to the ```Pagespeed-Insights``` - entry point under ```SYSTEM```.   
+In the backend navigate to the ```Pagespeed-Insights``` - entry point.   
 
 ![psibundle](docs/page_speed_insights_bundle.png?raw=true "psibundle")

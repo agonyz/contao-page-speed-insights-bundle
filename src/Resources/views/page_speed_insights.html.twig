@@ -1,0 +1,70 @@
+{% extends "@ContaoCore/Backend/be_page.html.twig" %}
+
+{% trans_default_domain 'AgonyzContaoPageSpeedInsightsBundle' %}
+{% block headline %}
+Page Speed Insights
+{% endblock %}
+
+{% block error %}
+{% if pageSpeedInsights == 'error' %}
+    {% trans %} api_error_message {% endtrans %}
+{% endif %}
+{% endblock %}
+
+{% block main %}
+<link href="{{ asset('bundles/agonyzcontaopagespeedinsights/style/main.css') }}" rel="stylesheet" type="text/css"/>
+<script src="{{ asset('bundles/agonyzcontaopagespeedinsights/script/progressbar.js') }}" type="text/javascript"></script>
+<script src="{{ asset('bundles/agonyzcontaopagespeedinsights/script/fetch-handler.js') }}" type="text/javascript"></script>
+<div class="tl_listing_container">
+    {% if pageSpeedInsights != 'error' and pageSpeedInsights != 'running' %}
+    <h2>Information {% if timestamp is defined %}- {{ timestamp|date('d.m.Y | H:i') }} {% endif %}</h2><br>
+    {% endif %}
+    {% if pageSpeedInsights == 'error' %}
+    {% include '@AgonyzContaoPageSpeedInsights/modules/status_error.html.twig' %}
+    {% elseif (pageSpeedInsights is iterable) and (pageSpeedInsights is not empty) %}
+    <div id="agonyz-page-speed-information">
+    <table class="page-speed-insights-table">
+        <thead>
+        <tr>
+            <th class="header-text">Domain</th>
+            <th class="header-text">Selfcheck</th>
+            <th class="header-text">Mobile</th>
+            <th class="header-text">Desktop</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for pageSpeedInsight in pageSpeedInsights %}
+        <tr>
+            <td><a class="agonyz-page-speed-insights link" target="_blank" href="{{pageSpeedInsight.defaultUrl}}">{{ pageSpeedInsight.defaultUrl }}</a></td>
+            <td><a class="agonyz-page-speed-insights link" target="_blank" href="{{pageSpeedInsight.selfCheckUrl}}">Check</a></td>
+            <td>{{max(pageSpeedInsight.results.mobile)}}</td>
+            <td>{{max(pageSpeedInsight.results.desktop)}}</td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    {% endif %}
+    {% if pageSpeedInsights != 'running' %}
+    <br>
+    <br>
+    <button id="agonyz-make-new-request" class="agonyz-button"><span>{% trans %} make_request_button {% endtrans %}</span></button>
+    <a href="{{ path('agonyz_contao_page_speed_insights_request_list') }}"><button id="agonyz-show-request-results-list" class="agonyz-button"><span>{% trans %} overview_button {% endtrans %}</span></button></a>
+    </div>
+    {% endif %}
+    <div id="agonyz-progress-container" class="{% if pageSpeedInsights == 'error' %}hidden{% endif %}">
+        <div id="progress-information">
+            <p>{{ 'progress_information' | trans({'%link_start%' : '<a class="agonyz-request-list" target="_blank" href="'~path('agonyz_contao_page_speed_insights_request_list')~'">', '%link_end%' : '</a>'}) | raw }}</p>
+        </div>
+        <div id="progressBar"></div>
+    </div>
+    {% if pageSpeedInsights == 'running' %}
+    <div id="agonyz-request-is-running"></div>
+    {% endif %}
+</div>
+
+<script>
+    const MAKE_REQUEST_URL = "{{ path('agonyz_contao_page_speed_insights_make_request') }}";
+    const REQUEST_PROGRESS_URL = "{{ path('agonyz_contao_page_speed_insights_request_progress') }}";
+    const REQUEST_STATUS_REFRESH_RATE = parseInt("{{requestStatusRefreshRate}}");
+</script>
+{% endblock %}

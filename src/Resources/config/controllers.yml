@@ -5,6 +5,13 @@ services:
     Agonyz\ContaoPageSpeedInsightsBundle\Controller\PageSpeedInsightsController:
         public: true
         arguments:
-          [ '@twig', '%agonyz_contao_page_speed_insights.cache_key%', '%agonyz_contao_page_speed_insights.api_key%', '@Psr\Cache\CacheItemPoolInterface', '@Agonyz\ContaoPageSpeedInsightsBundle\Service\RequestDatabaseHandler', '@Agonyz\ContaoPageSpeedInsightsBundle\Service\RequestCacheHandler' ]
+          [ '@twig', '%agonyz_contao_page_speed_insights.api_key%', '@doctrine.orm.entity_manager', '%agonyz_contao_page_speed_insights.request_status_refresh_rate%', '@security.helper' ]
+        calls:
+            - [ setContainer, [ '@Psr\Container\ContainerInterface' ] ]
+
+    Agonyz\ContaoPageSpeedInsightsBundle\Controller\RequestListController:
+        public: true
+        arguments:
+          [ '@twig', '@doctrine.orm.entity_manager', '%agonyz_contao_page_speed_insights.request_pagination%', '@security.helper' ]
         calls:
             - [ setContainer, [ '@Psr\Container\ContainerInterface' ] ]

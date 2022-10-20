@@ -1,0 +1,46 @@
+{% extends "@ContaoCore/Backend/be_page.html.twig" %}
+
+{% trans_default_domain 'AgonyzContaoPageSpeedInsightsBundle' %}
+{% block headline %}
+Page Speed Insights - {{ 'overview'|trans }}
+{% endblock %}
+
+{% block error %}
+{% if pager is empty %}
+{{ 'no_request_in_database_error'|trans }}
+{% endif %}
+{% endblock %}
+
+{% block main %}
+<link href="{{ asset('bundles/agonyzcontaopagespeedinsights/style/main.css') }}" rel="stylesheet" type="text/css"/>
+<link href="{{ asset('bundles/agonyzcontaopagespeedinsights/style/pagination.css') }}" rel="stylesheet" type="text/css"/>
+<script src="{{ asset('bundles/agonyzcontaopagespeedinsights/script/list-handler.js') }}" type="text/javascript"></script>
+<div class="tl_listing_container">
+{% if pager is not empty %}
+<h2>Requests</h2><br>
+<table class="page-speed-insights-table">
+    <thead>
+    <tr>
+        <th class="header-text">ID</th>
+        <th class="header-text">{{ 'created_at'|trans }}</th>
+        <th class="header-text">Status</th>
+        <th class="header-text">{{ 'compare'|trans }}</th>
+        <th class="header-text">{{ 'delete'|trans }}</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for request in pager %}
+    <tr>
+        <td><a class="agonyz-page-speed-insights link" target="_blank" href="{{ path('agonyz_contao_page_speed_insights_by_id', {id: request.id}) }}">{{ request.id }}</a></td>
+        <td>{{ request.created|date('d.m.Y - H:i') }}</td>
+        <td class="{% if request.successful == 1 %}agonyz-color-code-ok{% elseif request.successful is null %}agonyz-color-code-running{% else %}agonyz-color-code-failed{% endif %}">{% if request.successful == 1 %}{{ 'status_successful'|trans }}{% elseif request.successful is null %}{{ 'status_running'|trans }}{% else %}{{ 'status_failed'|trans }}{% endif %}</td>
+        <td><a data-id="{{request.id}}" class="agonyz-page-speed-insights link compare" href="{{ path('agonyz_contao_page_speed_insights_by_id_compare', {id: request.id}) }}">{{ 'compare'|trans }}</a></td>
+        <td><a data-id="{{request.id}}" class="agonyz-page-speed-insights link delete" href="{{ path('agonyz_contao_page_speed_insights_by_id_delete', {id: request.id}) }}">{{ 'delete'|trans }}</a></td>
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
+{{ pagerfanta(pager) }}
+{% endif %}
+<div data-locale="{{ app.request.locale }}" id="get-locale" class="hidden"></div></div>
+{% endblock %}

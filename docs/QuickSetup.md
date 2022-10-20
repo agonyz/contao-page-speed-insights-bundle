@@ -30,6 +30,6 @@ services:
         name: contao.cronjob
         interval: '0 */2 * * *'
     arguments:
-      [ '@contao.framework', '@Agonyz\ContaoPageSpeedInsightsBundle\Service\RequestCacheHandler']
+      [ '@contao.framework', '@Agonyz\ContaoPageSpeedInsightsBundle\Service\Request\RequestHandler']
 ```
 Documentation: https://docs.contao.org/dev/framework/cron/#using-service-tagging

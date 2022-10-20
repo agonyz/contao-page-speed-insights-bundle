@@ -1,0 +1,29 @@
+# backend menu listener
+page_speed_insights: Pagespeed Insights
+make_request: Request
+make_request_title: Pagespeed Insights für die Root-Seiten ansehen
+overview: Übersicht
+overview_title: Übersicht der vorhandenen Page Speed Insights Requests ansehen
+
+# main twig template
+api_error_message: Bei der Anfrage der API ist ein Fehler aufgetreten.
+make_request_button: Neuer Request
+overview_button: Übersicht
+progress_information: <p>Es werden gerade neue Page Speed Insights Ergebnisse generiert.</p><p>Wenn die Fortschrittsanzeige hängen bleibt, sehen Sie sich bitte die %link_start%Übersichtsliste%link_end% und den zugehörigen Status an.</p><p>Es kann gegebenenfalls notwendig sein, den betroffenen Vorgang aus der Liste zu löschen und den Prozess neu zu starten.</p>
+
+# error twig template
+error_information: '<p>Bitte überprüfen Sie die folgenden Konfigurationsschritte:</p><ul class="agonyz-page-speed-insights"><li class="agonyz-page-speed-insights">Haben Sie einen <span class="important">Api-Schlüssel</span> hinterlegt?</li><li class="agonyz-page-speed-insights">Enthält Ihre Installation <span class="important">veröffentlichte Root Seiten</span>?</li><li class="agonyz-page-speed-insights">Enthalten Ihre Root Seiten <span class="important">gültige DNS-Konfigurationen</span>?</li><li class="agonyz-page-speed-insights">Haben Sie <span class="important">mindestens</span> eine Root Seite für die Erweiterung aktiviert?</li></ul><br><p>Bitte leeren Sie anschließend Ihren Cache und starten Sie den Request per Befehl, Cronjob oder Button neu.</p><p>Wenn der Fehler weiterhin besteht, eröffnen Sie bitte ein Issue: <a class="agonyz-page-speed-insights link" target="_blank" href="https://github.com/agonyz/contao-page-speed-insights-bundle/issues">https://github.com/agonyz/contao-page-speed-insights-bundle/issues</a></p>'
+
+# request list twig template
+no_request_in_database_error: Es konnte kein Request in der Datenbank gefunden werden.
+created_at: Erstellt
+compare: Vergleichen
+delete: Löschen
+status_successful: erfolgreich
+status_running: wird ausgeführt
+status_failed: fehlgeschlagen
+
+# request comparison twig template
+comparison: Vergleich
+latest: Neuster
+request_not_comparable: Requests konnten nicht verglichen werden.
