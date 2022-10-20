@@ -16,11 +16,11 @@ You can edit the configuration in your ```config/config.yml```
 # config/config.yml
 # Agonyz Page Speed Insights
 agonyz_contao_page_speed_insights:
-  api_key: your-secret-api-key
-  request_retries: 3
-  pool_request_concurrency: 10
-  request_pagination: 15
-  request_status_refresh_rate: 5000
+  api_key: your-secret-api-key 
+  request_retries: 3 # retries for each strategy (desktop & mobile)
+  pool_request_concurrency: 10 # indicates how many requests are sent simultaneously
+  request_pagination: 15 # indicates how many requests are shown in the overview per page
+  request_status_refresh_rate: 5000 # duration for the ajax request to check the status of the current process
 ```
 
 Please remember to always clear the cache after each change in the ```config.yml```.   
