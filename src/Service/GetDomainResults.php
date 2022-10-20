@@ -125,7 +125,7 @@ class GetDomainResults
                 $this->entityManager->persist($this->request);
                 $this->entityManager->flush();
             },
-            'rejected' => static function (RequestException $reason, $index): void {
+            'rejected' => function (RequestException $reason, $index): void {
                 // failed requests are skipped for now
                 $this->request->setRequestCounter($this->request->getRequestCounter() + 1);
                 $this->entityManager->persist($this->request);
